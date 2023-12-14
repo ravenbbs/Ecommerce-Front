@@ -124,9 +124,6 @@ export default function Header() {
             </svg>
             Categorías
           </Link>
-          
-
-          <Button>Hello</Button>
           <Link href={"/products"}> Todos los productos </Link>
           <Link href={"#"}> Ofertas </Link>
           <Link href={"#"}> SexShop +18 </Link>
