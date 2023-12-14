@@ -1,23 +1,32 @@
+
 import { Carousel } from "flowbite-react";
 import Image from "next/image";
 
-export default function Featured() {
+export default function Featured({product}) {
   return (
-    <div className="lg:px-20 md:px-6 px-4 md:py-12 py-8 bg-white mt-4 mx-4 md:mx-12 rounded-md">
-      <div className="lg:flex items-center justify-between">
-        <div className="lg:w-1/3">
+    <div className="lg:px-20 md:px-6 px-4 md:py-12 py-8 bg-white mt-4 mx-4 lg:mx-12 rounded-md ">
+      <div className="flex md:flex-nowrap lg:gap-11 md:gap-4 items-center justify-between max-w-3xl mx-auto max-md:flex-col-reverse max-md:flex">
+        <div className="md:w-2/4">
           <h1 className="text-4xl font-semibold leading-9 text-gray-800 dark:text-white">
-            Indoor Interiors
+            {product.title}
           </h1>
           <p className="text-base leading-6 mt-4 text-gray-600 dark:text-gray-100">
-            Get inspired by our curated selection of luxiwood interiors. We hope
-            get inspired to have luxiwood interior yourself. You’ll find tips
-            here where you can buy a lot of cool furniture.
+           {product.description}
           </p>
+          <div className="flex gap-4">
+            <a
+            href={'/products/' + product._id}
+            className="  font-semibold  text-gray-800 btn-default bg-gray-200 "
+          >
+            Ver mas 
+          
+          </a>
+          
+       
           <button
             role="button"
             aria-label="view catalogue"
-            className=" focus:ring-gray-700  mt-6 md:mt-8 text-base font-semibold  text-gray-800 dark:text-white flex items-center "
+            className=" btn-default btn-blue focus:ring-gray-700   font-semibold  text-gray-800  flex items-center "
           >
             Agregar al Carrito
             <svg
@@ -35,21 +44,17 @@ export default function Featured() {
               />
             </svg>
           </button>
+          </div>
         </div>
-        <div className="lg:w-7/12 lg:mt-0 mt-8">
-          <div className="w-full h-full bg-red-200">
+        <div className="md:w-2/4 lg:mt-0 max-md:m-0 mt-8 ">
+          <div className="">
             <img
-              src="https://i.ibb.co/cbyDY74/pexels-max-vakhtbovych-6782351-1-1.png"
+              src={product.images[0]}
               alt="apartment design"
-              className="w-full sm:block hidden"
-            />
-            <img
-              src="https://i.ibb.co/ZVPGjGJ/pexels-max-vakhtbovych-6782351-1.png"
-              alt="apartment design"
-              className="sm:hidden block w-full"
+              className=" block min-w-full  h-96"
             />
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 lg:gap-8 gap-6 lg:mt-8 md:mt-6 mt-4">
+          {/* <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 lg:gap-8 gap-6 lg:mt-8 md:mt-6 mt-4">
             <img
               src="https://i.ibb.co/4Jrp5TB/pexels-max-vakhtbovych-6782370-1.png"
               className="w-full"
@@ -60,14 +65,14 @@ export default function Featured() {
               className="w-full"
               alt="sitting room"
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
   );
 }
 
-{
+
   /* <div className="mt-4 mx-4 max-w-2xl bg-white rounded-xl shadow-md overflow-hidden md:max-w-full md:mx-12 ">
   <div className="md:flex">
     <div className="md:shrink-0 p-2 min-h-fit md:h-80 md:w-">
@@ -80,7 +85,7 @@ export default function Featured() {
     </div>
   </div>
 </div> */
-}
+
 
 //   <div className="bg-white m-4 p-2 rounded-md flex flex-wrap gap-12 md:mx-12 md:rounded-lg   max-sm:grid-cols-1 max-sm:">
 //   <div className="max-sm:grow min-h-full border-2 w-full">
