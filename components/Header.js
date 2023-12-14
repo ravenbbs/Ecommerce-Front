@@ -1,8 +1,8 @@
 import Link from "next/link";
-
+import { Button, Dropdown } from "flowbite-react";
 export default function Header() {
   return (
-    <header className="flex flex-col p-2 ">
+    <header className="flex flex-col p-2 bg-white ">
       {/* sección superior del header*/}
       <div className="flex justify-between px-6 py-4">
         {/* Logo de la tienda*/}
@@ -51,15 +51,15 @@ export default function Header() {
           Bianvi Store
         </Link>
         {/* Barra de búsqueda*/}
-        <div className="flex border-blue-600 border-2 rounded-md overflow-hidden w-fit items-center  ">
+        <div className="flex border-blue-600 border-2 rounded-md overflow-hidden w-fit font-semibold">
           <input
             className="p-2 focus:outline-none  border-r-2 border-blue-600"
             type="text"
           />
-          <select className=" flex items-center outline-none">
+          <select className=" flex items-center outline-none px-4">
             <option value={0}>Categorías</option>
           </select>
-          <button className="bg-blue-500 text-white py-2 px-4 block">
+          <button className="bg-blue-500 text-white h-full px-6 block">
             Buscar
           </button>
         </div>
@@ -106,8 +106,8 @@ export default function Header() {
       </div>
       {/* Sección inferior del header*/}
       <div className="border-y-2 py-4 ">
-        <nav className=" flex gap-8 font-semibold items-center">
-          <Link href={"/categories"} className="flex items-center gap-2">
+        <nav className=" flex gap-8 font-semibold items-center px-4">
+          <Link href={"/categories"} className="flex items-center gap-2 ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -124,6 +124,9 @@ export default function Header() {
             </svg>
             Categorías
           </Link>
+          
+
+          <Button>Hello</Button>
           <Link href={"/products"}> Todos los productos </Link>
           <Link href={"#"}> Ofertas </Link>
           <Link href={"#"}> SexShop +18 </Link>
