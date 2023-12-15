@@ -9,7 +9,7 @@ export default function ProductBox({ _id, title, description, price, images }) {
     <div class="relative overflow-hidden bg-white shadow rounded-xl h-fit ">
       <div class="relative overflow-hidden">
          <a href={'/products/' + _id}>
-          <div class="mb-2  max-h-52 ">
+          <div class="mb-2  h-52 flex justify-center items-center">
           <img
             class="object-cover w-auto mx-auto transition-all max-h-52  rounded hover:scale-110"
             src={images[0]}
