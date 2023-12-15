@@ -1,7 +1,10 @@
 
 import Link from "next/link";
 import { Button, Dropdown } from "flowbite-react";
+import { useContext } from "react";
+import { CartContext } from "./CartContext";
 export default function Header() {
+  const {cartProducts} = useContext(CartContext)
   return (
     <header className="flex flex-col p-2 bg-white ">
       {/* sección superior del header*/}
@@ -101,7 +104,7 @@ export default function Header() {
                 fill="#8B96A5"
               />
             </svg>
-            Carrito (0)
+            Carrito {cartProducts.length}
           </Link>
         </div>
       </div>
