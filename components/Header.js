@@ -1,14 +1,13 @@
-
 import Link from "next/link";
 import { Button, Dropdown } from "flowbite-react";
 import { useContext } from "react";
 import { CartContext } from "./CartContext";
 export default function Header() {
-  const {cartProducts} = useContext(CartContext)
+  const { cartProducts } = useContext(CartContext);
   return (
-    <header className="flex flex-col p-2 bg-white ">
+    <header className="flex flex-col p-2 bg-white relative pt-20">
       {/* sección superior del header*/}
-      <div className="flex justify-between px-6 py-4">
+      <div className="flex justify-between max-lg:px-2 max-md:px-6 px-6 py-4 bg-white  fixed top-0 left-0 z-10 w-full drop-shadow-md rounded-b-md">
         {/* Logo de la tienda*/}
         <Link
           href={"/"}
@@ -55,23 +54,47 @@ export default function Header() {
           Bianvi Store
         </Link>
         {/* Barra de búsqueda*/}
-        <div className="flex border-blue-600 border-2 rounded-md overflow-hidden w-fit font-semibold">
+
+        <div className="flex border-blue-600 border-2 rounded-md overflow-hidden w-fit font-semibold max-md:hidden">
           <input
-            className="p-2 focus:outline-none  border-r-2 border-blue-600"
+            className="p-2 focus:outline-none  border-r-2 border-blue-600 max-lg:w-36"
             type="text"
           />
-          <select className=" flex items-center outline-none px-4">
+          <select className=" flex items-center outline-none px-4 max-lg:px-2 w-32">
             <option value={0}>Categorías</option>
           </select>
-          <button className="bg-blue-500 text-white h-full px-6 block">
+          <button className="bg-blue-500 text-white h-full px-6 block  max-lg:px-3 ">
             Buscar
           </button>
         </div>
         {/* Sección ingresar o Perfil*/}
         <div className="flex gap-4">
           {/* Ingresar - registrarse cuando no exista session  cuando si lo de abajo*/}
-          <Link href={"/account"} className="flex flex-col items-center text-gray-400 font-semibold">
-            
+          <Link
+            href={"/"}
+            className="flex flex-col items-center text-gray-400 font-semibold"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={3}
+              stroke="currentColor"
+              width="21"
+              height="21"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+            Buscar
+          </Link>
+          <Link
+            href={"/account"}
+            className="flex flex-col items-center text-gray-400 font-semibold"
+          >
             <svg
               width="21"
               height="21"
@@ -89,7 +112,10 @@ export default function Header() {
             Cuenta
           </Link>
 
-          <Link href={"/cart"} className="flex flex-col items-center text-gray-400 font-semibold">
+          <Link
+            href={"/cart"}
+            className="flex flex-col items-center text-gray-400 font-semibold relative"
+          >
             <svg
               width="21"
               height="21"
@@ -104,34 +130,41 @@ export default function Header() {
                 fill="#8B96A5"
               />
             </svg>
-            Carrito {cartProducts.length}
+            Carrito
+            <span className="absolute -top-3 -right-1 text-blue-500 bg-white rounded-full ">{cartProducts.length}</span>
           </Link>
         </div>
       </div>
       {/* Sección inferior del header*/}
-      <div className="border-y-2 py-4 ">
-        <nav className=" flex gap-8 font-semibold items-center px-4">
-          <Link href={"/categories"} className="flex items-center gap-2 ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.9}
-              stroke="currentColor"
-              className="w-8 h-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
+      <div className="border-b-2 py-4 ">
+        <nav className=" flex gap-8 max-md:gap-1 font-semibold items-center px-4">
+          <Link
+            href={"/categories"}
+            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+          >
             Categorías
           </Link>
-          <Link href={"/products"}> Todos los productos </Link>
-          <Link href={"#"}> Ofertas </Link>
-          <Link href={"#"}> SexShop +18 </Link>
-          <Link href={"#"}> Extra ...</Link>
+          <Link
+            href={"/products"}
+            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+          >
+            {" "}
+            Todos los productos{" "}
+          </Link>
+          <Link
+            href={"#"}
+            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+          >
+            {" "}
+            Ofertas{" "}
+          </Link>
+          <Link
+            href={"#"}
+            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+          >
+            {" "}
+            SexShop +18{" "}
+          </Link>
         </nav>
       </div>
     </header>
