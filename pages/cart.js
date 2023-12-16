@@ -1,6 +1,7 @@
 import { CartContext } from "@/components/CartContext";
 import Header from "@/components/Header";
 import axios from "axios";
+import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 
 export default function CartPage() {
@@ -18,11 +19,11 @@ export default function CartPage() {
     <>
       <Header hidden={" hidden"} />
 
-      <section class="grid grid-cols-2 pt-12 px-4 gap-5">
-        <div class="bg-white shadow rounded-lg  w-full max-w-md pt-6 ">
+      <section className="grid grid-cols-2 pt-12 px-4 gap-5">
+        <div className="bg-white shadow rounded-lg  w-full max-w-md pt-6 ">
           <h2>Carrito</h2>
           {!cartProducts.length && (
-            <div className="w-full h-20 text-center py-6 font-semibold text-xl">
+            <div key={cartProducts.length} className="w-full h-20 text-center py-6 font-semibold text-xl">
               El carrito esta vació
             </div>
           )}
@@ -39,15 +40,18 @@ export default function CartPage() {
 
               <tbody>
                 {products.map((product) => (
-                  <tr>
-                    <td>
-                      <img className="w-12 h-12" src={product.images[0]}>  </img>
-                      {product.title}
+                  <tr  key={product._id}>
+                    
+                    <td className="flex">
+                      <div className="w-46 h-46 border-2">
+                      <img className="w-46 h-46 " src={product.images[0]}  alt={`${product.title} thumbnail`}/>  
+                      </div>
+                      <h1>{product.title}</h1>
+                  
                       </td>
                     <td>
-                      {" "}
                       {cartProducts.filter((id) => id === product._id).length}
-                    </td>{" "}
+                    </td>
                     <td>${product.price}</td>
                   </tr>
                 ))}
