@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button, Dropdown } from "flowbite-react";
 import { useContext } from "react";
 import { CartContext } from "./CartContext";
-export default function Header() {
+export default function Header({hidden}) {
   const { cartProducts } = useContext(CartContext);
   return (
     <header className="flex flex-col p-2 bg-white relative pt-20">
@@ -72,7 +72,7 @@ export default function Header() {
           {/* Ingresar - registrarse cuando no exista session  cuando si lo de abajo*/}
           <Link
             href={"/"}
-            className="flex flex-col items-center text-gray-400 font-semibold"
+            className="flex flex-col items-center text-gray-400 font-semibold md:hidden"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +136,7 @@ export default function Header() {
         </div>
       </div>
       {/* Sección inferior del header*/}
-      <div className="border-b-2 py-4 ">
+      <div className={"border-b-2 py-4 " + hidden}>
         <nav className=" flex gap-8 max-md:gap-1 font-semibold items-center px-4">
           <Link
             href={"/categories"}
@@ -148,22 +148,22 @@ export default function Header() {
             href={"/products"}
             className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
           >
-            {" "}
-            Todos los productos{" "}
+            
+            Todos los productos
           </Link>
           <Link
             href={"#"}
             className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
           >
-            {" "}
-            Ofertas{" "}
+           
+            Ofertas
           </Link>
           <Link
             href={"#"}
             className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
           >
-            {" "}
-            SexShop +18{" "}
+        
+            SexShop +18
           </Link>
         </nav>
       </div>
