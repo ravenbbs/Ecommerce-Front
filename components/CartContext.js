@@ -16,6 +16,9 @@ export function CartContextProvider({children}){
   useEffect(() =>{
     if(ls && ls.getItem('cart')){
       setCartProducts(JSON.parse(ls.getItem('cart')))
+    } else{
+      setCartProducts([121])
+      console.log('hola')
     }
   },[])
 

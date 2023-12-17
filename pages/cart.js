@@ -19,12 +19,22 @@ export default function CartPage() {
       axios.post("/api/cart", { ids: cartProducts }).then((response) => {
         setProducts(response.data);
       });
+    } else {
+      setProducts([]);
+      localStorage.removeItem("cartProducts");
     }
   }, [cartProducts]);
 
   function moreOfThisProduct(id) {
     addProduct(id);
   }
+  function clearCart() {
+    setProducts([]);
+    ls?.removeItem("cart");
+  }
+  // function lessOfThisProduct(id) {
+  //
+  // }
   function lessOfThisProduct(id) {
     removeProduct(id);
   }
@@ -109,7 +119,7 @@ export default function CartPage() {
                 <tr>
                   <td></td>
                   <td></td>
-                  <td className="text-center">${productsTotal}</td>
+                  <td className="text-center">${productsTotal.toFixed(2)}</td>
                 </tr>
               </tbody>
             </table>
@@ -122,39 +132,50 @@ export default function CartPage() {
               Información del pedido
             </h1>
             <hr className="border-gray-300 my-4" />
-            <Input
-              type="text"
-              placeholder="Nombres"
-              value={name}
-              onChange={(ev) => setName(ev.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="Correo"
-              value={email}
-              onChange={(ev) => setEmail(ev.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="Ciudad"
-              value={city}
-              onChange={(ev) => setCity(ev.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="Código Postal"
-              value={postalCode}
-              onChange={(ev) => setPostalCode(ev.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="Dirección domicilio"
-              value={streetAddress}
-              onChange={(ev) => setStreetAddress(ev.target.value)}
-            />
-            <button className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center mx-auto ">
-              Continuar con el pago
-            </button>
+            <form method="post" action="/api/checkout">
+              <Input
+                type="text"
+                placeholder="Nombres"
+                name="name"
+                defaultValue={name}
+                onChange={(ev) => setName(ev.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Correo"
+                name="email"
+                defaultValue={email}
+                onChange={(ev) => setEmail(ev.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Ciudad"
+                name="city"
+                defaultValue={city}
+                onChange={(ev) => setCity(ev.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Código Postal"
+                name="postalCode"
+                defaultValue={postalCode}
+                onChange={(ev) => setPostalCode(ev.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Dirección domicilio"
+                name="streetAddress"
+                defaultValue={streetAddress}
+                onChange={(ev) => setStreetAddress(ev.target.value)}
+              />
+              <input className="hidden" name="products" defaultValue={cartProducts.join(',')} />
+              <button
+                type="submit"
+                className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center mx-auto "
+              >
+                Continuar con el pago
+              </button>
+            </form>
           </div>
         )}
       </section>
