@@ -5,8 +5,15 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 
 export default function CartPage() {
-  const { cartProducts, addProduct, removeProduct, productId } = useContext(CartContext);
+  const { cartProducts, addProduct, removeProduct, productId } =
+    useContext(CartContext);
   const [products, setProducts] = useState([]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+
   useEffect(() => {
     if (cartProducts.length > 0) {
       axios.post("/api/cart", { ids: cartProducts }).then((response) => {
@@ -15,15 +22,15 @@ export default function CartPage() {
     }
   }, [cartProducts]);
 
-  function moreOfThisProduct(id){
-    addProduct(id)
+  function moreOfThisProduct(id) {
+    addProduct(id);
   }
-  function lessOfThisProduct(id){
-    removeProduct(id)
+  function lessOfThisProduct(id) {
+    removeProduct(id);
   }
   let productsTotal = 0;
   for (const productId of cartProducts) {
-    const price = products.find(p => p._id === productId)?.price || 0;
+    const price = products.find((p) => p._id === productId)?.price || 0;
     productsTotal += price;
   }
 
@@ -31,7 +38,7 @@ export default function CartPage() {
     <>
       <Header hidden={"hidden"} />
 
-      <section className="mb-6 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
+      <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
         <div className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 ">
           <h2 className="text-2xl font-bold mb-6 mx-4">Carrito</h2>
           {!cartProducts.length && (
@@ -70,27 +77,39 @@ export default function CartPage() {
                     </td>
                     <td className="text-center">
                       <div className="font-bold">
-                      <button 
-                      onClick={() => moreOfThisProduct(product._id)}
-                      
-                      className="border-2 rounded-s-md w-6 border-gray-300">+</button> 
-                        <span className="mx-1">{cartProducts.filter((id) => id === product._id).length}</span>
-                      <button 
-                      onClick={() => lessOfThisProduct(product._id)}
-                      className="border-gray-300 rounded-e-md border-2 w-6">-</button>
-                        </div>             
+                        <button
+                          onClick={() => moreOfThisProduct(product._id)}
+                          className="border-2 rounded-s-md w-6 border-gray-300"
+                        >
+                          +
+                        </button>
+                        <span className="mx-1">
+                          {
+                            cartProducts.filter((id) => id === product._id)
+                              .length
+                          }
+                        </span>
+                        <button
+                          onClick={() => lessOfThisProduct(product._id)}
+                          className="border-gray-300 rounded-e-md border-2 w-6"
+                        >
+                          -
+                        </button>
+                      </div>
                     </td>
                     <td className="text-center">
                       $
-                      {(cartProducts.filter((id) => id === product._id).length *
-                        product.price).toFixed(2)}
+                      {(
+                        cartProducts.filter((id) => id === product._id).length *
+                        product.price
+                      ).toFixed(2)}
                     </td>
                   </tr>
                 ))}
                 <tr>
                   <td></td>
                   <td></td>
-                  <td>{productsTotal}</td>
+                  <td className="text-center">${productsTotal}</td>
                 </tr>
               </tbody>
             </table>
@@ -98,8 +117,44 @@ export default function CartPage() {
         </div>
 
         {!!cartProducts.length && (
-          <div className="bg-white shadow rounded-lg h-20 w-full max-w-2xl max-md:mx-auto">
-            <Input />
+          <div className="bg-white shadow rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
+            <h1 className="text-2xl font-bold mt-2 mx-4">
+              Información del pedido
+            </h1>
+            <hr className="border-gray-300 my-4" />
+            <Input
+              type="text"
+              placeholder="Nombres"
+              value={name}
+              onChange={(ev) => setName(ev.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Correo"
+              value={email}
+              onChange={(ev) => setEmail(ev.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Ciudad"
+              value={city}
+              onChange={(ev) => setCity(ev.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Código Postal"
+              value={postalCode}
+              onChange={(ev) => setPostalCode(ev.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Dirección domicilio"
+              value={streetAddress}
+              onChange={(ev) => setStreetAddress(ev.target.value)}
+            />
+            <button className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center mx-auto ">
+              Continuar con el pago
+            </button>
           </div>
         )}
       </section>
