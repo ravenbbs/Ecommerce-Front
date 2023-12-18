@@ -44,6 +44,17 @@ export default function CartPage() {
     productsTotal += price;
   }
 
+
+  if (isSuccess) {
+    return (
+      <>
+        <Header />
+              <h1>Thanks for your order!</h1>
+              <p>We will email you when your order will be sent.</p>  
+      </>
+    );
+  }
+
   return (
     <>
       <Header hidden={"hidden"} />
