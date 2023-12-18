@@ -14,6 +14,8 @@ export default function CartPage() {
   const [postalCode, setPostalCode] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
 
+  const [isSuccess, setIsSuccess] = useState(false);
+
   useEffect(() => {
     if (cartProducts.length > 0) {
       axios.post("/api/cart", { ids: cartProducts }).then((response) => {
@@ -24,6 +26,19 @@ export default function CartPage() {
       localStorage.removeItem("cartProducts");
     }
   }, [cartProducts]);
+
+  // useEffect(() => {
+  //   if (typeof window === 'undefined') {
+  //     return;
+  //   }
+  //   if (window?.location.href.includes('success')) {
+  //     setIsSuccess(true);
+  //     clearCart();
+  //   }
+  //   axios.get('/api/settings?name=shippingFee').then(res => {
+  //     setShippingFee(res.data.value);
+  //   })
+  // }, []);
 
   function moreOfThisProduct(id) {
     addProduct(id);
@@ -44,13 +59,16 @@ export default function CartPage() {
     productsTotal += price;
   }
 
-
   if (isSuccess) {
     return (
       <>
-        <Header />
-              <h1>Thanks for your order!</h1>
-              <p>We will email you when your order will be sent.</p>  
+        <Header hidden={"hidden"} />
+        <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
+          <div className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 ">
+            <h1 className="text-3xl mb-2 font-semibold">Gracias por tu compra!</h1>
+            <p className="mb-4 font-semibold">Te contactaremos para informarte sobre tu pedido!</p>
+          </div>
+        </section>
       </>
     );
   }
@@ -61,7 +79,7 @@ export default function CartPage() {
 
       <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
         <div className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 ">
-          <h2 className="text-2xl font-bold mb-6 mx-4">Carrito</h2>
+          <h1 className="mb-6 mx-4">Carrito</h1>
           {!cartProducts.length && (
             <div
               key={cartProducts.length}
@@ -91,9 +109,9 @@ export default function CartPage() {
                           src={product.images[0]}
                           alt={`${product.title} thumbnail`}
                         />
-                        <h1 className="py-1 font-semibold my-2">
+                        <h2 className="py-1 font-semibold my-2">
                           {product.title}
-                        </h1>
+                        </h2>
                       </div>
                     </td>
                     <td className="text-center">
@@ -139,7 +157,7 @@ export default function CartPage() {
 
         {!!cartProducts.length && (
           <div className="bg-white shadow rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
-            <h1 className="text-2xl font-bold mt-2 mx-4">
+            <h1 className=" mt-2 mx-4">
               Información del pedido
             </h1>
             <hr className="border-gray-300 my-4" />
@@ -179,7 +197,11 @@ export default function CartPage() {
                 defaultValue={streetAddress}
                 onChange={(ev) => setStreetAddress(ev.target.value)}
               />
-              <input className="hidden" name="products" defaultValue={cartProducts.join(',')} />
+              <input
+                className="hidden"
+                name="products"
+                defaultValue={cartProducts.join(",")}
+              />
               <button
                 type="submit"
                 className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center mx-auto "

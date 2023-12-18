@@ -1,5 +1,4 @@
-import { Carousel } from "flowbite-react";
-import Image from "next/image";
+
 import { useContext } from "react";
 import { CartContext } from "./CartContext";
 
@@ -14,9 +13,9 @@ function addFeaturedToCart(){
     <div className="lg:px-20 md:px-6 px-4 md:py-12 py-8 bg-white mt-4 mx-4 lg:mx-12 rounded-md ">
       <div className="flex md:flex-nowrap lg:gap-11 md:gap-4 items-center justify-between max-w-3xl mx-auto max-md:flex-col-reverse max-md:flex">
         <div className="md:w-2/4">
-          <h1 className="text-4xl font-semibold leading-9 text-gray-800 dark:text-white">
+          <h2 className="text-3xl font-semibold leading-9 text-gray-800 dark:text-white">
             {product.title}
-          </h1>
+          </h2>
           <p className="text-base leading-6 mt-4 text-gray-600 dark:text-gray-100">
             {product.description}
           </p>

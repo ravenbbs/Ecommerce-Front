@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+h1{
+  @apply text-2xl font-bold;
+}
+
 .btn-default{
 
   @apply px-4 py-2 rounded-md mt-5 cursor-pointer

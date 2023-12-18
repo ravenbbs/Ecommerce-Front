@@ -137,7 +137,7 @@ export default function Header({hidden}) {
       </div>
       {/* Sección inferior del header*/}
       <div className={"border-b-2 py-4 " + hidden}>
-        <nav className=" flex gap-8 max-md:gap-1 font-semibold items-center px-4">
+        <nav className=" flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0 max-sm:justify-center">
           <Link
             href={"/categories"}
             className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
