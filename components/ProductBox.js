@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import CartIcon from "./icons/CartIcon";
 import { CartContext } from "./CartContext";
 
 export default function ProductBox({ _id, title, description, price, images }) {

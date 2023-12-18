@@ -16,8 +16,7 @@ export function CartContextProvider({ children }) {
     if (ls && ls.getItem("cart")) {
       setCartProducts(JSON.parse(ls.getItem("cart")));
     } else {
-      setCartProducts([121]);
-      console.log("hola");
+      setCartProducts([]);
     }
   }, []);
 
@@ -29,10 +28,19 @@ export function CartContextProvider({ children }) {
     setCartProducts((prev) => {
       const pos = prev.indexOf(productId);
       if (pos !== -1) {
-        return prev.filter((value, index) => index !== pos);
-      } else {
-        return prev;
+        // Encuentra la primera ocurrencia del producto y elimínala
+        prev.splice(pos, 1);
       }
+  
+      if (prev.length === 0) {
+        // Si el carrito está vacío, elimina la clave del carrito del Local Storage
+        localStorage.removeItem('cart');
+      } else {
+        // Si el carrito no está vacío, actualiza el Local Storage con el carrito actualizado
+        localStorage.setItem('cart', JSON.stringify(prev));
+      }
+  
+      return [...prev]; // Devuelve una nueva referencia del carrito actualizado
     });
   }
 

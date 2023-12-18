@@ -21,7 +21,7 @@ function addFeaturedToCart(){
           </p>
           <div className="flex gap-4">
             <a
-              href={"/products/" + product._id}
+              href={"/product/" + product._id}
               className="  font-semibold  text-gray-800 btn-default bg-gray-200 "
             >
               Ver mas
@@ -50,11 +50,13 @@ function addFeaturedToCart(){
         </div>
         <div className="md:w-2/4 lg:mt-0 max-md:m-0 mt-8 ">
           <div className="">
+          <a href={"/product/" + product._id}>
             <img
               src={product.images[0]}
               alt="apartment design"
               className=" block min-w-full  h-96"
             />
+            </a>
           </div>
           {/* <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 lg:gap-8 gap-6 lg:mt-8 md:mt-6 mt-4">
             <img

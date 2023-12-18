@@ -7,7 +7,7 @@ export default function Header({hidden}) {
   return (
     <header className="flex flex-col p-2 bg-white relative pt-20">
       {/* sección superior del header*/}
-      <div className="flex justify-between max-lg:px-2 max-md:px-6 px-6 py-4 bg-white  fixed top-0 left-0 z-10 w-full drop-shadow-md rounded-b-md">
+      <div className="flex justify-between max-lg:px-2 max-md:px-6 px-6 py-4 bg-white  fixed top-0 left-0 z-50 w-full drop-shadow-md rounded-b-md">
         {/* Logo de la tienda*/}
         <Link
           href={"/"}
