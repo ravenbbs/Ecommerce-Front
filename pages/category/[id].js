@@ -2,14 +2,17 @@ import Header from "@/components/Header";
 import ProductBox from "@/components/ProductBox";
 import { Category } from "@/models/Category";
 import { Product } from "@/models/Product";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function CategoryPage({ category,subCategories, products:originalProducts }) {
-
+  const defaultSorting = '_id-desc';
+  const defaultFilterValues = category.properties.map(p => ({name:p.name,value:'all'}));
   const [products, setProducts] = useState(originalProducts)
-  const [filtersValues, setFiltersValues] = useState(
-    category.properties.map(p => ({name:p.name, value:'all'}))
-  )
+  const [filtersValues, setFiltersValues] = useState(defaultFilterValues)
+  const [sort,setSort] = useState(defaultSorting);
+  const [filtersChanged,setFiltersChanged] = useState(false);
+
 function handleFilterChange(filterName, filterValue){
   setFiltersValues( prev => {
     return prev.map(p => ({
@@ -19,9 +22,36 @@ function handleFilterChange(filterName, filterValue){
 
   })
 }
+function handleFilterChange(filterName, filterValue) {
+  setFiltersValues(prev => {
+    return prev.map(p => ({
+      name:p.name,
+      value: p.name === filterName ? filterValue : p.value,
+    }));
+  });
+  setFiltersChanged(true);
+}
+
 useEffect(() => {
-  const catIds = [category._id, ...subCategories.map((c) => c._id)];
-}, [filtersValues])
+  if (!filtersChanged) {
+    return;
+  }
+  const catIds = [category._id, ...(subCategories?.map(c => c._id) || [])];
+  const params = new URLSearchParams;
+  params.set('categories', catIds.join(','));
+  params.set('sort', sort);
+  filtersValues.forEach(f => {
+    if (f.value !== 'all') {
+      params.set(f.name, f.value);
+    }
+  });
+  const url = `/api/products?` + params.toString();
+  axios.get(url).then(res => {
+    setProducts(res.data);
+    setLoadingProducts(false);
+  })
+}, [filtersValues, sort, filtersChanged]);
+
 
 
   return (
@@ -59,15 +89,14 @@ useEffect(() => {
 
 export async function getServerSideProps(context) {
   const category = await Category.findById(context.query.id);
-  const subCategories = await Category.find({ parent: category._id });
-  const catIds = [category._id, ...subCategories.map((c) => c._id)];
-  const products = await Product.find({ category: catIds });
-  console.log(category);
+  const subCategories = await Category.find({parent:category._id});
+  const catIds = [category._id, ...subCategories.map(c => c._id)];
+  const products = await Product.find({category:catIds});
   return {
-    props: {
+    props:{
       category: JSON.parse(JSON.stringify(category)),
-      category: JSON.parse(JSON.stringify(subCategories)),
+      subCategories: JSON.parse(JSON.stringify(subCategories)),
       products: JSON.parse(JSON.stringify(products)),
-    },
+    }
   };
 }
