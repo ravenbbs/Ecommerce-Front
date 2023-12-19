@@ -155,7 +155,7 @@ export default function Header({ hidden }) {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              dataSlot="icon"
+             
               className="w-6 h-6 sm:hidden"
             >
               <path

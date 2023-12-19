@@ -11,14 +11,14 @@ export default function CategoriesPage({ mainCategories, categoriesProducts }) {
       <Header />
       <div className=" lg:px-20 md:px-6 px-4 md:py-12 py-8 bg-white mt-4 mx-4 lg:mx-12 rounded-md  ">
         {mainCategories.map((cat) => (
-          <>
+          <div key={cat._id}>
             <a 
             href={'/category/' + cat._id}
             className="mb-2 font-bold text-2xl">{cat.name}</a>
             <hr className=" mb-6 border border-blue-200 rounded-full" />
             <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 mb-6">
               {categoriesProducts[cat._id].map((p, index) => (
-                <ProductBox {...p} />
+                <ProductBox key={p._id} {...p} />
               ))}
               <Link 
               href={'/category/' + cat._id}
@@ -30,7 +30,7 @@ export default function CategoriesPage({ mainCategories, categoriesProducts }) {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  dataSlot="icon"
+                
                   className="w-6 h-6"
                 >
                   <path
@@ -41,7 +41,7 @@ export default function CategoriesPage({ mainCategories, categoriesProducts }) {
                 </svg>
               </Link>
             </div>
-          </>
+          </div>
         ))}
       </div>
     </>

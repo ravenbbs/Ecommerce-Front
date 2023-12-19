@@ -2,8 +2,28 @@ import Header from "@/components/Header";
 import ProductBox from "@/components/ProductBox";
 import { Category } from "@/models/Category";
 import { Product } from "@/models/Product";
+import { useEffect, useState } from "react";
 
-export default function CategoryPage({ category, products }) {
+export default function CategoryPage({ category,subCategories, products:originalProducts }) {
+
+  const [products, setProducts] = useState(originalProducts)
+  const [filtersValues, setFiltersValues] = useState(
+    category.properties.map(p => ({name:p.name, value:'all'}))
+  )
+function handleFilterChange(filterName, filterValue){
+  setFiltersValues( prev => {
+    return prev.map(p => ({
+      name:p.name,
+      value: p.name === filterName ? filterValue : p.value
+    }))
+
+  })
+}
+useEffect(() => {
+  const catIds = [category._id, ...subCategories.map((c) => c._id)];
+}, [filtersValues])
+
+
   return (
     <>
       <Header />
@@ -12,11 +32,15 @@ export default function CategoryPage({ category, products }) {
           <h1 className="mb-2">{category.name}</h1>
           <div className="flex gap-8 max-sm:gap-4 items-baseline w-fit max-w-sm ">
             {category.properties.slice(0, 2).map((prop) => (
-              <div className="bg-blue-200 px-1 py-1 mb-2 rounded-md font-semibold">
+              <div key={prop.name} className="bg-blue-200 px-1 py-1 mb-2 rounded-md font-semibold">
                 {prop.name}
-                <select className="bg-white rounded-sm block py-0  px-0 text-sm font-semibold text-gray-800 bg-transparent border-none  ">
+                <select 
+                onChange={ev => handleFilterChange(prop.name, ev.target.value)}
+                value={filtersValues.find(f => f.name === prop.name).value}
+                className="bg-white rounded-sm block py-0  px-1 text-sm font-semibold text-gray-800 bg-transparent border-none  ">
+                <option className="font-semibold" value='all'>Todos</option>
                   {prop.values.map((val) => (
-                    <option className="font-semibold" value={val}>{val}</option>
+                    <option key={val} className="font-semibold" value={val}>{val}</option>
                   ))}
                 </select>
               </div>
@@ -26,7 +50,7 @@ export default function CategoryPage({ category, products }) {
         <hr className=" mb-6 border border-blue-300 rounded-full" />
         <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 mb-6">
           {products?.length > 0 &&
-            products.map((product, index) => <ProductBox {...product} />)}
+            products.map((product, index) => <ProductBox key={product._id} {...product} />)}
         </div>
       </div>
     </>
@@ -42,6 +66,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       category: JSON.parse(JSON.stringify(category)),
+      category: JSON.parse(JSON.stringify(subCategories)),
       products: JSON.parse(JSON.stringify(products)),
     },
   };
