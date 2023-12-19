@@ -1,9 +1,15 @@
 import Link from "next/link";
-import { Button, Dropdown } from "flowbite-react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
-export default function Header({hidden}) {
+
+
+
+export default function Header({ hidden }) {
+  
+  const [ mobileNavActive, setMobileNavActive] = useState(false)
   const { cartProducts } = useContext(CartContext);
+
+
   return (
     <header className="flex flex-col p-2 bg-white relative pt-20">
       {/* sección superior del header*/}
@@ -131,42 +137,64 @@ export default function Header({hidden}) {
               />
             </svg>
             Carrito
-            <span className="absolute -top-3 -right-1 text-blue-500 bg-white rounded-full ">{cartProducts.length}</span>
+            <span className="absolute -top-3 -right-1 text-blue-500 bg-white rounded-full ">
+              {cartProducts.length}
+            </span>
           </Link>
         </div>
       </div>
       {/* Sección inferior del header*/}
-      <div className={"border-b-2 py-4 " + hidden}>
-        <nav className=" flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0 max-sm:justify-center">
+      <div className={"border-b-2 py-4 max-sm:pl-6 " + hidden}>
+        <button 
+        onClick={()=> setMobileNavActive(prev => !prev)}
+        className="sm:hidden flex gap-2 font-semibold bg-blue-200 px-2 py-1 rounded-md hover:scale-105">
+
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              dataSlot="icon"
+              className="w-6 h-6 sm:hidden"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+            Categorías
+        </button>
+    
+        <nav className="relative flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0 max-sm:absolute max-sm:-left-full ">
           <Link
             href={"/categories"}
-            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105 flex gap-2"
           >
+         
             Categorías
           </Link>
           <Link
             href={"/products"}
             className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
           >
-            
             Todos los productos
           </Link>
           <Link
             href={"#"}
             className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
           >
-           
             Ofertas
           </Link>
           <Link
             href={"#"}
             className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
           >
-        
             SexShop +18
           </Link>
         </nav>
-      </div>
+      </div> 
     </header>
   );
 }
