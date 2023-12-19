@@ -10,7 +10,7 @@ export default function ProductBox({ _id, title, description, price, images }) {
          <a href={'/product/' + _id}>
           <div className="mb-2  h-52 flex justify-center items-center">
           <img
-            className="object-cover w-auto mx-auto transition-all max-h-52  rounded hover:scale-110"
+            className="p-2 object-cover w-auto mx-auto transition-all max-h-52  rounded hover:scale-110"
             src={images?.[0]}
             alt="..."
           />

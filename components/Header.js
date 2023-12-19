@@ -168,7 +168,7 @@ export default function Header({ hidden }) {
         </button>
     
         <nav 
-        className={(mobileNavActive? ' left-6 max-sm:top-10 mt-4 max-sm:absolute ': ' max-sm:-left-full max-sm:absolute  ') + " flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0  "}
+        className={(mobileNavActive? ' left-6 max-sm:top-10 mt-4 max-sm:absolute ': 'max-sm:hidden max-sm:-left-full max-sm:absolute  ') + " flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0  "}
         
         >
           <Link
