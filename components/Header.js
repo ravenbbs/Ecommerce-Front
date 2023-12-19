@@ -144,7 +144,7 @@ export default function Header({ hidden }) {
         </div>
       </div>
       {/* Sección inferior del header*/}
-      <div className={"border-b-2 py-4 max-sm:pl-6 " + hidden}>
+      <div className={"border-b-2 py-4 max-sm:pl-6 relative " + hidden}>
         <button 
         onClick={()=> setMobileNavActive(prev => !prev)}
         className="sm:hidden flex gap-2 font-semibold bg-blue-200 px-2 py-1 rounded-md hover:scale-105">
@@ -167,12 +167,14 @@ export default function Header({ hidden }) {
             Categorías
         </button>
     
-        <nav className="relative flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0 max-sm:absolute max-sm:-left-full ">
+        <nav 
+        className={(mobileNavActive? ' left-6 max-sm:top-10 mt-4 max-sm:absolute ': ' max-sm:-left-full max-sm:absolute  ') + " flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0  "}
+        
+        >
           <Link
             href={"/categories"}
-            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105 flex gap-2"
+            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105 gap-2 max-sm:hidden"
           >
-         
             Categorías
           </Link>
           <Link

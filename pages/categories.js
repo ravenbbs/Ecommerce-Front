@@ -1,33 +1,76 @@
 import Header from "@/components/Header";
 import ProductBox from "@/components/ProductBox";
 import { mongooseConnect } from "@/lib/mongoose";
+import { Category } from "@/models/Category";
 import { Product } from "@/models/Product";
+import Link from "next/link";
 
-export default function CategoriesPage({products}){
+export default function CategoriesPage({ mainCategories, categoriesProducts }) {
   return (
     <>
-    <Header />
-    <div className=" lg:px-20 md:px-6 px-4 md:py-12 py-8 bg-white mt-4 mx-4 lg:mx-12 rounded-md  ">
-      <h2 className="mb-8 font-bold text-2xl">Todos los productos</h2>
-      <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
-        {products?.length > 0 &&
-          products.map((product) => <ProductBox key={product._id} {...product} />)}
+      <Header />
+      <div className=" lg:px-20 md:px-6 px-4 md:py-12 py-8 bg-white mt-4 mx-4 lg:mx-12 rounded-md  ">
+        {mainCategories.map((cat) => (
+          <>
+            <a 
+            href={'/category/' + cat._id}
+            className="mb-2 font-bold text-2xl">{cat.name}</a>
+            <hr className=" mb-6 border border-blue-200 rounded-full" />
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 mb-6">
+              {categoriesProducts[cat._id].map((p, index) => (
+                <ProductBox {...p} />
+              ))}
+              <Link 
+              href={'/category/' + cat._id}
+              className=" flex gap-4 items-center justify-center overflow-hidden bg-gray-100 shadow-md rounded-xl h-full border ">
+                <p className="font-bold">Ver Más </p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  dataSlot="icon"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </>
+        ))}
       </div>
-
-     
-    </div>
-  
     </>
-  )
+  );
 }
 
 export async function getServerSideProps() {
   await mongooseConnect();
-  const products = await Product.find({}, null, { sort: { _id: -1 } });
-
+  const categories = await Category.find();
+  const mainCategories = categories.filter((c) => !c.parent);
+  const categoriesProducts = {}; // catId => [products]
+  const allFetchedProductsId = [];
+  for (const mainCat of mainCategories) {
+    const mainCatId = mainCat._id.toString();
+    const childCatIds = categories
+      .filter((c) => c?.parent?.toString() === mainCatId)
+      .map((c) => c._id.toString());
+    const categoriesIds = [mainCatId, ...childCatIds];
+    const products = await Product.find({ category: categoriesIds }, null, {
+      limit: 3,
+      sort: { _id: -1 },
+    });
+    allFetchedProductsId.push(...products.map((p) => p._id.toString()));
+    categoriesProducts[mainCat._id] = products;
+  }
   return {
     props: {
-      products: JSON.parse(JSON.stringify(products)),
+      mainCategories: JSON.parse(JSON.stringify(mainCategories)),
+      categoriesProducts: JSON.parse(JSON.stringify(categoriesProducts)),
     },
   };
 }

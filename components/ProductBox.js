@@ -5,7 +5,7 @@ export default function ProductBox({ _id, title, description, price, images }) {
   const {addProduct} = useContext (CartContext)
 
   return (
-    <div className="relative overflow-hidden bg-white shadow rounded-xl h-fit ">
+    <div className="relative overflow-hidden bg-white shadow-md rounded-xl h-fit border ">
       <div className="relative overflow-hidden">
          <a href={'/product/' + _id}>
           <div className="mb-2  h-52 flex justify-center items-center">
