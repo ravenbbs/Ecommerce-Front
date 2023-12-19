@@ -43,7 +43,7 @@ export default function ProductBox({ _id, title, description, price, images }) {
             ${price}
           </p>
           <span className="block -mt-1 text-xs font-semibold text-gray-400 line-through">
-            ${price + 238}
+            ${price += price * 0.12}
           </span>
         </div>
         <button onClick={() => addProduct(_id) } className="w-full px-1 text-sm text-white transition-all bg-blue-500 rounded-r-none hover:bg-blue-600 rounded-t-xl font-bold">

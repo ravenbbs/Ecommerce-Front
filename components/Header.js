@@ -11,7 +11,7 @@ export default function Header({ hidden }) {
 
 
   return (
-    <header className="flex flex-col p-2 bg-white relative pt-20">
+    <header className=" flex flex-col p-2 bg-white relative pt-20">
       {/* sección superior del header*/}
       <div className="flex justify-between max-lg:px-2 max-md:px-6 px-6 py-4 bg-white  fixed top-0 left-0 z-50 w-full drop-shadow-md rounded-b-md">
         {/* Logo de la tienda*/}
@@ -168,7 +168,7 @@ export default function Header({ hidden }) {
         </button>
     
         <nav 
-        className={(mobileNavActive? ' left-6 max-sm:top-10 mt-4 max-sm:absolute ': 'max-sm:hidden max-sm:-left-full max-sm:absolute  ') + " flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0  "}
+        className={(mobileNavActive? ' left-0 top-0 mt-4 max-sm:absolute ': ' max-sm:-left-full max-sm:absolute  ') + " flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0  "}
         
         >
           <Link
