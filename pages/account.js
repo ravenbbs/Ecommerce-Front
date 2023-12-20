@@ -1,8 +1,17 @@
 import Header from "@/components/Header";
+import Input from "@/components/Input";
+import axios from "axios";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { RevealWrapper } from "next-reveal";
+import { useState } from "react";
 
 export default function AccountPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+
   const session = useSession();
   function logout() {
     signOut({
@@ -12,6 +21,12 @@ export default function AccountPage() {
   function login() {
     signIn("google");
   }
+
+  function saveAddress(){
+    const data = {name, email, city, postalCode, streetAddress }
+    axios.put('/api/address', data)
+  }
+
 
   return (
     <>
@@ -23,6 +38,49 @@ export default function AccountPage() {
         <RevealWrapper className="bg-white shadow rounded-lg h-fit w-full max-w-xl max-md:mx-auto p-4 ">
           <h1 className=" mt-2 mx-4">Información de Cuenta</h1>
           <hr className="border-gray-300 my-4" />
+              <Input
+                type="text"
+                placeholder="Nombres"
+                name="name"
+                defaultValue={name}
+                onChange={(ev) => setName(ev.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Correo"
+                name="email"
+                defaultValue={email}
+                onChange={(ev) => setEmail(ev.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Ciudad"
+                name="city"
+                defaultValue={city}
+                onChange={(ev) => setCity(ev.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Código Postal"
+                name="postalCode"
+                defaultValue={postalCode}
+                onChange={(ev) => setPostalCode(ev.target.value)}
+              />
+              <Input
+                type="text"
+                placeholder="Dirección domicilio"
+                name="streetAddress"
+                defaultValue={streetAddress}
+                onChange={(ev) => setStreetAddress(ev.target.value)}
+              />
+              <button
+              onClick={saveAddress}
+                type="submit"
+                className=" btn-default btn-blue font-semibold  text-gray-800  flex items-center w-full text-center"
+              >
+                Guardar
+              </button>
+            <hr className="border-gray-300 my-4" />
           {session && (
             <button
               onClick={logout}

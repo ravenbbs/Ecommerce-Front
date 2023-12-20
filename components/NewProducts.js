@@ -10,13 +10,6 @@ export default function NewProducts({ products }) {
         {products?.length > 0 &&
           products.map((product) => <ProductBox key={product._id} {...product} />)}
       </RevealWrapper>
-
-      {/* <div className="p-4 mx-auto max-w-7xl items-center flex lg:h-screen">
-          <div className="grid grid-cols-1 gap-4 lg:gap-4 sm:gap-4 sm:grid-cols-2 md:grid-cols-4">
-
-            
-          </div>
-        </div> */}
     </div>
   );
 }

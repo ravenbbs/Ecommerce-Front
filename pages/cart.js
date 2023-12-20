@@ -2,9 +2,12 @@ import { CartContext } from "@/components/CartContext";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useContext, useEffect, useState } from "react";
 
 export default function CartPage() {
+  const {data:session} = useSession()
+
   const { cartProducts, addProduct, removeProduct, productId } =
     useContext(CartContext);
   const [products, setProducts] = useState([]);
