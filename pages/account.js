@@ -1,9 +1,10 @@
 import Header from "@/components/Header";
 import Input from "@/components/Input";
+import Spinner from "@/components/Spinner";
 import axios from "axios";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { RevealWrapper } from "next-reveal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AccountPage() {
   const [name, setName] = useState("");
@@ -11,6 +12,12 @@ export default function AccountPage() {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
+  const [addressLoaded,setAddressLoaded] = useState(true);
+  const [wishlistLoaded,setWishlistLoaded] = useState(true);
+  const [orderLoaded,setOrderLoaded] = useState(true);
+  const [wishedProducts,setWishedProducts] = useState([]);
+  const [activeTab, setActiveTab] = useState('Orders');
+  const [orders, setOrders] = useState([]);
 
   const session = useSession();
   function logout() {
@@ -26,7 +33,30 @@ export default function AccountPage() {
     const data = {name, email, city, postalCode, streetAddress }
     axios.put('/api/address', data)
   }
-
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    setAddressLoaded(false);
+    //setWishlistLoaded(false);
+    //setOrderLoaded(false);
+    axios.get('/api/address').then(response => {
+      setName(response.data.name);
+      setEmail(response.data.email);
+      setCity(response.data.city);
+      setPostalCode(response.data.postalCode);
+      setStreetAddress(response.data.streetAddress);
+      setAddressLoaded(true);
+    });
+    // axios.get('/api/wishlist').then(response => {
+    //   setWishedProducts(response.data.map(wp => wp.product));
+    //   setWishlistLoaded(true);
+    // });
+    // axios.get('/api/orders').then(response => {
+    //   setOrders(response.data);
+    //   setOrderLoaded(true);
+    // });
+  }, [session]);
 
   return (
     <>
@@ -35,8 +65,16 @@ export default function AccountPage() {
         <RevealWrapper className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 "  delay={100} >
           <h1 className="mb-6 mx-4">Ordenes</h1>
         </RevealWrapper>
+
+
         <RevealWrapper className="bg-white shadow rounded-lg h-fit w-full max-w-xl max-md:mx-auto p-4 ">
-          <h1 className=" mt-2 mx-4">Información de Cuenta</h1>
+        {!addressLoaded && (
+                  <Spinner fullWidth={true} />
+                )}
+          {addressLoaded && session && (
+
+          <>
+          <h1 className=" mt-2 mx-4">Detalles de la Cuenta</h1>
           <hr className="border-gray-300 my-4" />
               <Input
                 type="text"
@@ -80,6 +118,7 @@ export default function AccountPage() {
               >
                 Guardar
               </button>
+              </> )}
             <hr className="border-gray-300 my-4" />
           {session && (
             <button

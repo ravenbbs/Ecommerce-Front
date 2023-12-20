@@ -43,6 +43,19 @@ export default function CartPage() {
   //   })
   // }, []);
 
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    axios.get('/api/address').then(response => {
+      setName(response.data.name);
+      setEmail(response.data.email);
+      setCity(response.data.city);
+      setPostalCode(response.data.postalCode);
+      setStreetAddress(response.data.streetAddress);
+    });
+  }, [session]);
+
   function moreOfThisProduct(id) {
     addProduct(id);
   }
@@ -50,9 +63,7 @@ export default function CartPage() {
     setProducts([]);
     ls?.removeItem("cart");
   }
-  // function lessOfThisProduct(id) {
-  //
-  // }
+
   function lessOfThisProduct(id) {
     removeProduct(id);
   }
