@@ -2,13 +2,9 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
 
-
-
-export default function Header({ hidden }) {
-  
-  const [ mobileNavActive, setMobileNavActive] = useState(false)
+export default function Header({ hidden, searchHidden, cartHidden }) {
+  const [mobileNavActive, setMobileNavActive] = useState(false);
   const { cartProducts } = useContext(CartContext);
-
 
   return (
     <header className=" flex flex-col p-2 bg-white relative pt-20">
@@ -60,7 +56,6 @@ export default function Header({ hidden }) {
           Bianvi Store
         </Link>
         {/* Barra de búsqueda*/}
-
         <div className="flex border-blue-600 border-2 rounded-md overflow-hidden w-fit font-semibold max-md:hidden">
           <input
             className="p-2 focus:outline-none  border-r-2 border-blue-600 max-lg:w-36"
@@ -76,9 +71,11 @@ export default function Header({ hidden }) {
         {/* Sección ingresar o Perfil*/}
         <div className="flex gap-4">
           {/* Ingresar - registrarse cuando no exista session  cuando si lo de abajo*/}
+          
+
           <Link
-            href={"/"}
-            className="flex flex-col items-center text-gray-400 font-semibold md:hidden"
+            href={"/search"}
+            className={"flex flex-col items-center text-gray-400 font-semibold md:hidden " + searchHidden}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -97,6 +94,8 @@ export default function Header({ hidden }) {
             </svg>
             Buscar
           </Link>
+
+
           <Link
             href={"/account"}
             className="flex flex-col items-center text-gray-400 font-semibold"
@@ -120,7 +119,7 @@ export default function Header({ hidden }) {
 
           <Link
             href={"/cart"}
-            className="flex flex-col items-center text-gray-400 font-semibold relative"
+            className={"flex flex-col items-center text-gray-400 font-semibold relative " + cartHidden}
           >
             <svg
               width="21"
@@ -145,31 +144,34 @@ export default function Header({ hidden }) {
       </div>
       {/* Sección inferior del header*/}
       <div className={"border-b-2 py-4 max-sm:pl-6 relative " + hidden}>
-        <button 
-        onClick={()=> setMobileNavActive(prev => !prev)}
-        className="sm:hidden flex gap-2 font-semibold bg-blue-200 px-2 py-1 rounded-md hover:scale-105">
-
+        <button
+          onClick={() => setMobileNavActive((prev) => !prev)}
+          className="sm:hidden flex gap-2 font-semibold bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+        >
           <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-             
-              className="w-6 h-6 sm:hidden"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-            Categorías
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6 sm:hidden"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
+          Categorías
         </button>
-    
-        <nav 
-        className={(mobileNavActive? ' left-0 top-0 mt-4 max-sm:absolute ': ' max-sm:-left-full max-sm:absolute  ') + " flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0  "}
-        
+
+        <nav
+          className={
+            (mobileNavActive
+              ? " left-0 top-0 mt-4 max-sm:absolute "
+              : " max-sm:-left-full max-sm:absolute  ") +
+            " flex gap-3 max-md:gap-3 font-semibold items-center px-4 max-sm:px-0  "
+          }
         >
           <Link
             href={"/categories"}
@@ -196,7 +198,7 @@ export default function Header({ hidden }) {
             SexShop +18
           </Link>
         </nav>
-      </div> 
+      </div>
     </header>
   );
 }
