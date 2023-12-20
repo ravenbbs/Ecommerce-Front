@@ -48,7 +48,6 @@ useEffect(() => {
   const url = `/api/products?` + params.toString();
   axios.get(url).then(res => {
     setProducts(res.data);
-    setLoadingProducts(false);
   })
 }, [filtersValues, sort, filtersChanged]);
 
@@ -60,7 +59,7 @@ useEffect(() => {
       <div className=" lg:px-20 max-sm:px-0  px-4 md:py-12 py-8 mt-4 mx-4 lg:mx-12 rounded-md  ">
         <div className="flex justify-between  items-baseline ">
           <h1 className="mb-2">{category.name}</h1>
-          <div className="flex gap-8 max-sm:gap-4 items-baseline w-fit max-w-sm ">
+          <div className="flex gap-8 max-sm:gap-2 items-baseline w-full max-w-lg flex-wrap justify-end">
             {category.properties.slice(0, 2).map((prop) => (
               <div key={prop.name} className="bg-blue-200 px-1 py-1 mb-2 rounded-md font-semibold">
                 {prop.name}
@@ -73,8 +72,24 @@ useEffect(() => {
                     <option key={val} className="font-semibold" value={val}>{val}</option>
                   ))}
                 </select>
+                
               </div>
             ))}
+            <div className="bg-blue-200 px-1 py-1 mb-2 rounded-md font-semibold">
+            <span>Sort:</span>
+              <select
+              className="bg-white rounded-sm block py-0  px-1 text-sm font-semibold text-gray-800 bg-transparent border-none  "
+                value={sort}
+                onChange={ev => {
+                  setSort(ev.target.value);
+                  setFiltersChanged(true);
+                }}>
+                <option value="price-asc">price, lowest first</option>
+                <option value="price-desc">price, highest first</option>
+                <option value="_id-desc">newest first</option>
+                <option value="_id-asc">oldest first</option>
+              </select> 
+              </div>
           </div>
         </div>
         <hr className=" mb-6 border border-blue-300 rounded-full" />

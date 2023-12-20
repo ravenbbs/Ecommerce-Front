@@ -23,22 +23,26 @@ export default function ProductPage({ product }) {
                     className=" max-w-lg mx-auto w-96 h-max px-4 max-h-full "
                   />
                 </div>
-                
+
                 <div className="flex-wrap hidden md:flex ">
-                 {product.images.slice(0, 4).map(image =>
-                 <div key={image} className={'w-1/2 p-2 sm:w-1/4'}>
-                    <button
-                      onClick={() => setActiveImage(image)}
-                      className={`block border-2 border-blue-300 p-1  ${activeImage === image ? ' border-blue-600' : '  opacity-80'}`}
-                    >
-                      <img
-                        src={image}
-                        alt=""
-                        className="object-cover w-full lg:h-20"
-                      />
-                    </button>
-                  </div>
-                )}
+                  {product.images.slice(0, 4).map((image) => (
+                    <div key={image} className={"w-1/2 p-2 sm:w-1/4"}>
+                      <button
+                        onClick={() => setActiveImage(image)}
+                        className={`block border-2 border-blue-300 p-1  ${
+                          activeImage === image
+                            ? " border-blue-600"
+                            : "  opacity-80"
+                        }`}
+                      >
+                        <img
+                          src={image}
+                          alt=""
+                          className="object-cover w-full lg:h-20"
+                        />
+                      </button>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="px-6 pb-1 mt-6 border-t border-gray-300 dark:border-gray-400 ">
