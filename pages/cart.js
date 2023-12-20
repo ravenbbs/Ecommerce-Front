@@ -62,11 +62,11 @@ export default function CartPage() {
   if (isSuccess) {
     return (
       <>
-        <Header hidden={"hidden"} />
-        <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
-          <div className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 ">
-            <h1 className="text-3xl mb-2 font-semibold">Gracias por tu compra!</h1>
-            <p className="mb-4 font-semibold">Te contactaremos para informarte sobre tu pedido!</p>
+        <Header hidden={"hidden"} cartHidden={'hidden'}/>
+        <section className="mb-12 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
+          <div className=" text-center bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 ">
+            <h1 className="text-3xl my-4 font-semibold">Gracias por tu compra!</h1>
+            <p className="my-6 font-semibold">Te contactaremos para informarte sobre tu pedido!</p>
           </div>
         </section>
       </>
@@ -75,7 +75,7 @@ export default function CartPage() {
 
   return (
     <>
-      <Header hidden={"hidden"} />
+      <Header hidden={"hidden"} cartHidden={'hidden'} />
 
       <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
         <div className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 ">
@@ -136,7 +136,7 @@ export default function CartPage() {
                         </button>
                       </div>
                     </td>
-                    <td className="text-center">
+                    <td className="text-center font-medium">
                       $
                       {(
                         cartProducts.filter((id) => id === product._id).length *
@@ -148,7 +148,7 @@ export default function CartPage() {
                 <tr>
                   <td></td>
                   <td></td>
-                  <td className="text-center">${productsTotal.toFixed(2)}</td>
+                  <td className="text-center font-semibold">${productsTotal.toFixed(2)}</td>
                 </tr>
               </tbody>
             </table>

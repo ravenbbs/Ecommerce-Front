@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
 
-export default function Header({ hidden, searchHidden, cartHidden }) {
+export default function Header({ hidden, searchHidden, cartHidden, accountHidden }) {
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const { cartProducts } = useContext(CartContext);
 
@@ -98,7 +98,7 @@ export default function Header({ hidden, searchHidden, cartHidden }) {
 
           <Link
             href={"/account"}
-            className="flex flex-col items-center text-gray-400 font-semibold"
+            className={"flex flex-col items-center text-gray-400 font-semibold "+ accountHidden }
           >
             <svg
               width="21"
