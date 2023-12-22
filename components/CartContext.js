@@ -43,6 +43,9 @@ export function CartContextProvider({ children }) {
       return [...prev]; // Devuelve una nueva referencia del carrito actualizado
     });
   }
+  function clearCart() {
+    setCartProducts([]);
+  }
 
   return (
     <CartContext.Provider
