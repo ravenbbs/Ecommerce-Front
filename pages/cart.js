@@ -7,17 +7,16 @@ import { useContext, useEffect, useState } from "react";
 
 export default function CartPage() {
   const { data: session } = useSession();
+  const { cartProducts, addProduct, removeProduct, clearCart } = useContext(CartContext);
 
-  const { cartProducts, addProduct, removeProduct, productId } =
-    useContext(CartContext);
   const [products, setProducts] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
-
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false); // pasarela de pago
+  const [shippingFee, setShippingFee] = useState(null);
 
   useEffect(() => {
     if (cartProducts.length > 0) {
@@ -30,18 +29,18 @@ export default function CartPage() {
     }
   }, [cartProducts]);
 
-  // useEffect(() => {
-  //   if (typeof window === 'undefined') {
-  //     return;
-  //   }
-  //   if (window?.location.href.includes('success')) {
-  //     setIsSuccess(true);
-  //     clearCart();
-  //   }
-  //   axios.get('/api/settings?name=shippingFee').then(res => {
-  //     setShippingFee(res.data.value);
-  //   })
-  // }, []);
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    if (window?.location.href.includes("success")) {
+      setIsSuccess(true);
+      clearCart();
+    }
+    // axios.get("/api/settings?name=shippingFee").then((res) => {
+    //   setShippingFee(res.data.value);
+    // });
+  }, []);
 
   useEffect(() => {
     if (!session) {
@@ -59,10 +58,7 @@ export default function CartPage() {
   function moreOfThisProduct(id) {
     addProduct(id);
   }
-  function clearCart() {
-    setProducts([]);
-    ls?.removeItem("cart");
-  }
+ 
 
   function lessOfThisProduct(id) {
     removeProduct(id);
@@ -71,6 +67,20 @@ export default function CartPage() {
   for (const productId of cartProducts) {
     const price = products.find((p) => p._id === productId)?.price || 0;
     productsTotal += price;
+  }
+
+  async function goToPayment() {
+    const response = await axios.post("/api/checkout", {
+      name,
+      email,
+      city,
+      postalCode,
+      streetAddress,
+      cartProducts,
+    });
+    if (response.data.url) {
+      window.location = response.data.url;
+    }
   }
 
   if (isSuccess) {
@@ -94,7 +104,6 @@ export default function CartPage() {
   return (
     <>
       <Header hidden={"hidden"} cartHidden={"hidden"} />
-
       <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
         <div className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 ">
           <h1 className="mb-6 mx-4">Carrito</h1>
@@ -179,54 +188,47 @@ export default function CartPage() {
           <div className="bg-white shadow rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
             <h1 className=" mt-2 mx-4">Información del pedido</h1>
             <hr className="border-gray-300 my-4" />
-            <form method="post" action="/api/checkout">
-              <Input
-                type="text"
-                placeholder="Nombres"
-                name="name"
-                defaultValue={name}
-                onChange={(ev) => setName(ev.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Correo"
-                name="email"
-                defaultValue={email}
-                onChange={(ev) => setEmail(ev.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Ciudad"
-                name="city"
-                defaultValue={city}
-                onChange={(ev) => setCity(ev.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Código Postal"
-                name="postalCode"
-                defaultValue={postalCode}
-                onChange={(ev) => setPostalCode(ev.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Dirección domicilio"
-                name="streetAddress"
-                defaultValue={streetAddress}
-                onChange={(ev) => setStreetAddress(ev.target.value)}
-              />
-              <input
-                className="hidden"
-                name="products"
-                defaultValue={cartProducts.join(",")}
-              />
-              <button
-                type="submit"
-                className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center mx-auto "
-              >
-                Continuar con el pago
-              </button>
-            </form>
+            <Input
+              type="text"
+              placeholder="Nombres"
+              name="name"
+              defaultValue={name}
+              onChange={(ev) => setName(ev.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Correo"
+              name="email"
+              defaultValue={email}
+              onChange={(ev) => setEmail(ev.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Ciudad"
+              name="city"
+              defaultValue={city}
+              onChange={(ev) => setCity(ev.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Código Postal"
+              name="postalCode"
+              defaultValue={postalCode}
+              onChange={(ev) => setPostalCode(ev.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Dirección domicilio"
+              name="streetAddress"
+              defaultValue={streetAddress}
+              onChange={(ev) => setStreetAddress(ev.target.value)}
+            />
+            <button
+              onClick={goToPayment}
+              className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center mx-auto "
+            >
+              Continuar con el pago
+            </button>
           </div>
         )}
       </section>

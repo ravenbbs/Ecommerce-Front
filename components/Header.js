@@ -146,7 +146,7 @@ export default function Header({ hidden, searchHidden, cartHidden, accountHidden
       <div className={"border-b-2 py-4 max-sm:pl-6 relative " + hidden}>
         <button
           onClick={() => setMobileNavActive((prev) => !prev)}
-          className="sm:hidden flex gap-2 font-semibold bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+          className="sm:hidden flex gap-2 font-semibold bg-blue-500 text-white px-2 py-1 rounded-md hover:scale-105"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -175,25 +175,25 @@ export default function Header({ hidden, searchHidden, cartHidden, accountHidden
         >
           <Link
             href={"/categories"}
-            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105 gap-2 max-sm:hidden"
+            className=" bg-blue-500 text-white  px-2 py-1 rounded-md hover:scale-105 gap-2 max-sm:hidden"
           >
             Categorías
           </Link>
           <Link
             href={"/products"}
-            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+            className=" bg-blue-500 text-white px-2 py-1 rounded-md hover:scale-105"
           >
             Todos los productos
           </Link>
           <Link
             href={"#"}
-            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+            className=" bg-blue-500 text-white px-2 py-1 rounded-md hover:scale-105"
           >
             Ofertas
           </Link>
           <Link
             href={"#"}
-            className=" bg-blue-200 px-2 py-1 rounded-md hover:scale-105"
+            className=" bg-blue-500 text-white px-2 py-1 rounded-md hover:scale-105"
           >
             SexShop +18
           </Link>

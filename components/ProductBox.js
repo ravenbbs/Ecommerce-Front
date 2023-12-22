@@ -23,10 +23,10 @@ export default function ProductBox({ _id, title, description, price, images, wis
   const { addProduct } = useContext(CartContext);
 
   return (
-    <RevealWrapper className="relative overflow-hidden bg-white shadow-md rounded-xl h-fit border ">
+    <RevealWrapper className="h-80 relative overflow-hidden bg-white shadow-md rounded-xl  border ">
       <div className="relative overflow-hidden">
         <a href={"/product/" + _id}>
-          <div className="mb-2  h-52 flex justify-center items-center">
+          <div className="mb-3  h-48 flex justify-center items-center">
             <img
               className="p-2 object-cover w-auto mx-auto transition-all max-h-52  rounded hover:scale-110"
               src={images?.[0]}
@@ -34,7 +34,7 @@ export default function ProductBox({ _id, title, description, price, images, wis
             />
           </div>
 
-          <h3 className="px-5 mb-4 text-lg font-bold h-12 ">{title}</h3>
+          <h3 className="text-left px-4 mb-4 text-lg font-bold h-12 ">{title}</h3>
         </a>
         <button 
         onClick={addToWishlist}
@@ -44,7 +44,7 @@ export default function ProductBox({ _id, title, description, price, images, wis
       </div>
 
       <div className="flex">
-        <div className="w-1/2 px-5 pb-3">
+        <div className="w-1/2 px-2 pb-3">
           <p className="text-lg font-bold text-blue-500 dark:text-blue-300">
             ${price}
           </p>
