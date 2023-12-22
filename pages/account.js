@@ -69,7 +69,7 @@ export default function AccountPage() {
       <Header hidden={"hidden"} accountHidden={"hidden"} />
       <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
         <RevealWrapper className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto p-4 "  delay={100} >
-          <h1 className="mb-6 mx-4">Ordenes</h1>
+          <h1 className="mb-6 mx-4">Lista de deseos</h1>
           <div className="flex flex-wrap gap-4 max-sm:justify-center p">
                {wishedProducts.length > 0 &&
                             wishedProducts.map((wp) => (
