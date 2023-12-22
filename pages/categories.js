@@ -68,7 +68,6 @@ export async function getServerSideProps(ctx) {
     categoriesProducts[mainCat._id] = products;
   }
 
-
   const session = await getServerSession(ctx.req, ctx.res, authOptions);
   const wishedProducts = session?.user
     ? await WishedProduct.find({

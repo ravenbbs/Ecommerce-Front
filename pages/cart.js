@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useContext, useEffect, useState } from "react";
 
 export default function CartPage() {
-  const {data:session} = useSession()
+  const { data: session } = useSession();
 
   const { cartProducts, addProduct, removeProduct, productId } =
     useContext(CartContext);
@@ -47,7 +47,7 @@ export default function CartPage() {
     if (!session) {
       return;
     }
-    axios.get('/api/address').then(response => {
+    axios.get("/api/address").then((response) => {
       setName(response.data.name);
       setEmail(response.data.email);
       setCity(response.data.city);
@@ -76,11 +76,15 @@ export default function CartPage() {
   if (isSuccess) {
     return (
       <>
-        <Header hidden={"hidden"} cartHidden={'hidden'}/>
+        <Header hidden={"hidden"} cartHidden={"hidden"} />
         <section className="mb-12 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
           <div className=" text-center bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 ">
-            <h1 className="text-3xl my-4 font-semibold">Gracias por tu compra!</h1>
-            <p className="my-6 font-semibold">Te contactaremos para informarte sobre tu pedido!</p>
+            <h1 className="text-3xl my-4 font-semibold">
+              Gracias por tu compra!
+            </h1>
+            <p className="my-6 font-semibold">
+              Te contactaremos para informarte sobre tu pedido!
+            </p>
           </div>
         </section>
       </>
@@ -89,7 +93,7 @@ export default function CartPage() {
 
   return (
     <>
-      <Header hidden={"hidden"} cartHidden={'hidden'} />
+      <Header hidden={"hidden"} cartHidden={"hidden"} />
 
       <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
         <div className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 ">
@@ -162,7 +166,9 @@ export default function CartPage() {
                 <tr>
                   <td></td>
                   <td></td>
-                  <td className="text-center font-semibold">${productsTotal.toFixed(2)}</td>
+                  <td className="text-center font-semibold">
+                    ${productsTotal.toFixed(2)}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -171,9 +177,7 @@ export default function CartPage() {
 
         {!!cartProducts.length && (
           <div className="bg-white shadow rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
-            <h1 className=" mt-2 mx-4">
-              Información del pedido
-            </h1>
+            <h1 className=" mt-2 mx-4">Información del pedido</h1>
             <hr className="border-gray-300 my-4" />
             <form method="post" action="/api/checkout">
               <Input
@@ -226,7 +230,6 @@ export default function CartPage() {
           </div>
         )}
       </section>
-      
     </>
   );
 }
