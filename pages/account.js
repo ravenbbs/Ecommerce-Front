@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Input from "@/components/Input";
+import WishProductBox from "@/components/WishProductBox";
 import Spinner from "@/components/Spinner";
 import axios from "axios";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -38,7 +39,7 @@ export default function AccountPage() {
       return;
     }
     setAddressLoaded(false);
-    //setWishlistLoaded(false);
+    setWishlistLoaded(false);
     //setOrderLoaded(false);
     axios.get('/api/address').then(response => {
       setName(response.data.name);
@@ -48,22 +49,41 @@ export default function AccountPage() {
       setStreetAddress(response.data.streetAddress);
       setAddressLoaded(true);
     });
-    // axios.get('/api/wishlist').then(response => {
-    //   setWishedProducts(response.data.map(wp => wp.product));
-    //   setWishlistLoaded(true);
-    // });
+    axios.get('/api/wishlist').then(response => {
+      setWishedProducts(response.data.map(wp => wp.product));
+      setWishlistLoaded(true);
+    });
     // axios.get('/api/orders').then(response => {
     //   setOrders(response.data);
     //   setOrderLoaded(true);
     // });
   }, [session]);
 
+  function productRemovedFromWishlist(idToRemove) {
+    setWishedProducts((products) => {
+      return [...products.filter((p) => p._id.toString() !== idToRemove)];
+    });
+  }
   return (
     <>
       <Header hidden={"hidden"} accountHidden={"hidden"} />
       <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
-        <RevealWrapper className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto px-4 "  delay={100} >
+        <RevealWrapper className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto p-4 "  delay={100} >
           <h1 className="mb-6 mx-4">Ordenes</h1>
+          <div className="flex flex-wrap gap-4 max-sm:justify-center p">
+               {wishedProducts.length > 0 &&
+                            wishedProducts.map((wp) => (
+                              <WishProductBox
+                                key={wp._id}
+                                {...wp}
+                                wished={true}
+                                onRemoveFromWishlist={
+                                  productRemovedFromWishlist
+                                }
+                              />
+                            ))}
+          </div>
+       
         </RevealWrapper>
 
 

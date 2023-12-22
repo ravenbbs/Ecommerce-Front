@@ -1,20 +1,29 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "./CartContext";
 import HeartSolidIcon from "./icons/HeartSolidIcon";
+import axios from "axios";
+import { RevealWrapper } from "next-reveal";
 
-export default function ProductBox({ _id, title, description, price, images, wished }) {
-  const [isWished, setIsWished] = useState(wished == false)
+export default function ProductBox({ _id, title, description, price, images, wished=false, onRemoveFromWishlist=()=>{} }) {
+  const [isWished, setIsWished] = useState(wished)
   
-  function addToWishList(ev){
+  function addToWishlist(ev) {
     ev.preventDefault();
-    ev.stopPropagation()
-    setIsWished((prev) => !prev)
+    ev.stopPropagation();
+    const nextValue = !isWished;
+    if (nextValue === false && onRemoveFromWishlist) {
+      onRemoveFromWishlist(_id);
+    }
+    axios.post('/api/wishlist', {
+      product: _id,
+    }).then(() => {});
+    setIsWished(nextValue);
   }
 
   const { addProduct } = useContext(CartContext);
 
   return (
-    <div className="relative overflow-hidden bg-white shadow-md rounded-xl h-fit border ">
+    <RevealWrapper className="relative overflow-hidden bg-white shadow-md rounded-xl h-fit border ">
       <div className="relative overflow-hidden">
         <a href={"/product/" + _id}>
           <div className="mb-2  h-52 flex justify-center items-center">
@@ -28,7 +37,7 @@ export default function ProductBox({ _id, title, description, price, images, wis
           <h3 className="px-5 mb-4 text-lg font-bold h-12 ">{title}</h3>
         </a>
         <button 
-        onClick={addToWishList}
+        onClick={addToWishlist}
         className="absolute top-0 right-0 p-3 rounded-l-none hover:scale-110 transition-all ">
           <HeartSolidIcon color={isWished? "#ff4f67" : "#aaaaaaa" } />
         </button>
@@ -50,6 +59,6 @@ export default function ProductBox({ _id, title, description, price, images, wis
           Agregar al Carrito
         </button>
       </div>
-    </div>
+    </RevealWrapper>
   );
 }
