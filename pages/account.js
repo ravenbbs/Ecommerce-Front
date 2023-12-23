@@ -6,6 +6,7 @@ import axios from "axios";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { RevealWrapper } from "next-reveal";
 import { useEffect, useState } from "react";
+import Tabs from "@/components/Tabs";
 
 export default function AccountPage() {
   const { data: session } = useSession();
@@ -31,7 +32,7 @@ export default function AccountPage() {
   }
 
   function saveAddress() {
-    const data = { name, email, city, streetAddress, postalCode};
+    const data = { name, email, city, streetAddress, postalCode };
     axios.put("/api/address", data);
   }
   useEffect(() => {
@@ -63,13 +64,14 @@ export default function AccountPage() {
       return [...products.filter((p) => p._id.toString() !== idToRemove)];
     });
   }
-  
+
   return (
     <>
       <Header hidden={"hidden"} accountHidden={"hidden"} />
       <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
         <div className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto p-4 ">
           <h1 className="mb-6 mx-4">Lista de deseos</h1>
+          <Tabs tabs={["Lista de deseos", "Ordenes"]} />
           <RevealWrapper>
             <div className="flex flex-wrap gap-4 max-sm:justify-center p">
               {!wishlistLoaded && <Spinner fullWidth={true} />}
@@ -85,14 +87,16 @@ export default function AccountPage() {
                         onRemoveFromWishlist={productRemovedFromWishlist}
                       />
                     ))}
-                {wishedProducts.length === 0 && (
-                          <>
-                            {session && <p>Tu lista esta vacía</p>}
-                            {!session && (
-                              <p className="mb-6">Inicia sesión para agregar productos a tu lista</p>
-                            )}
-                          </>
-                        )}
+                  {wishedProducts.length === 0 && (
+                    <>
+                      {session && <p>Tu lista esta vacía</p>}
+                      {!session && (
+                        <p className="mb-6">
+                          Inicia sesión para agregar productos a tu lista
+                        </p>
+                      )}
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -147,15 +151,14 @@ export default function AccountPage() {
               >
                 Guardar
               </button>
-              
             </RevealWrapper>
           )}
           <RevealWrapper>
             {addressLoaded && !session && (
-            <p className="text-center my-6">Se requiere iniciar sesión  </p>
-          )}
+              <p className="text-center my-6">Se requiere iniciar sesión </p>
+            )}
           </RevealWrapper>
-          
+
           <hr className="border-gray-300 my-4" />
           {session && (
             <button

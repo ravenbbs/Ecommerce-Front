@@ -188,6 +188,8 @@ export default function CartPage() {
             <h1 className=" mt-2 mx-4">Información del pedido</h1>
             <hr className="border-gray-300 my-4" />
             <Input
+                          disabled="true"
+
               type="text"
               placeholder="Nombres"
               name="name"
@@ -195,6 +197,8 @@ export default function CartPage() {
               onChange={(ev) => setName(ev.target.value)}
             />
             <Input
+                          disabled="true"
+
               type="text"
               placeholder="Correo"
               name="email"
@@ -202,6 +206,8 @@ export default function CartPage() {
               onChange={(ev) => setEmail(ev.target.value)}
             />
             <Input
+                          disabled="true"
+
               type="text"
               placeholder="Ciudad"
               name="city"
@@ -209,6 +215,8 @@ export default function CartPage() {
               onChange={(ev) => setCity(ev.target.value)}
             />
             <Input
+                          disabled="true"
+
               type="text"
               placeholder="Código Postal"
               name="postalCode"
@@ -216,6 +224,7 @@ export default function CartPage() {
               onChange={(ev) => setPostalCode(ev.target.value)}
             />
             <Input
+              disabled="true"
               type="text"
               placeholder="Dirección domicilio"
               name="streetAddress"
@@ -224,7 +233,7 @@ export default function CartPage() {
             />
             <div className="flex justify-evenly">
               <button
-              // onClick={goToPayment} //aun no esta funcional la pasarela 
+              onClick={goToPayment} //aun no esta funcional la pasarela 
               href={'/factura'}
               className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center "
             >
@@ -239,6 +248,12 @@ export default function CartPage() {
             >
               Generar Factura
             </a> */}
+            <a
+              href={'/account'}
+              className=" btn-default bg-green-200  font-semibold  text-green-900  flex items-center"
+            >
+              Editar Información
+            </a>
             </div>
             
           </div>
