@@ -12,6 +12,7 @@ export default function FacturaPage() {
   const [postalCode, setPostalCode] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const { cartProducts } = useContext(CartContext);
+  const [shippingFee, setShippingFee] = useState(null);
 
   useEffect(() => {
     if (cartProducts.length > 0) {
@@ -32,6 +33,10 @@ export default function FacturaPage() {
       setPostalCode(response.data.postalCode);
       setStreetAddress(response.data.streetAddress);
     });
+    axios.get("/api/settings?name=shippingFee").then((res) => {
+      setShippingFee(res.data.value);
+    });
+    
   }, [session]);
   const fechaActual = new Date();
   const dia = fechaActual.getDate();
@@ -126,12 +131,12 @@ export default function FacturaPage() {
           </div>
           <div class="flex justify-end mb-2">
             <div class="text-gray-700 mr-2">Gestión envíos: </div>
-            <div class="text-gray-700"> $5.50</div>
+            <div class="text-gray-700"> ${parseFloat(shippingFee).toFixed(2)}</div>
           </div>
           <div class="flex justify-end mb-2">
             <div class="text-gray-700 mr-2">Total:</div>
             <div class="text-gray-700 font-bold text-xl">
-              ${(productsTotal + 5.5).toFixed(2)}
+              ${(productsTotal + parseFloat(shippingFee)).toFixed(2)}
             </div>
           </div>
           <div class="border-t-2 border-gray-300 pt-8 mb-8">

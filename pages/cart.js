@@ -37,9 +37,9 @@ export default function CartPage() {
       setIsSuccess(true);
       clearCart();
     }
-    // axios.get("/api/settings?name=shippingFee").then((res) => {
-    //   setShippingFee(res.data.value);
-    // });
+    axios.get("/api/settings?name=shippingFee").then((res) => {
+      setShippingFee(res.data.value);
+    });
   }, []);
 
   useEffect(() => {
@@ -172,10 +172,24 @@ export default function CartPage() {
                   </tr>
                 ))}
                 <tr>
-                  <td></td>
+                  <td>Productos</td>
                   <td></td>
                   <td className="text-center font-semibold">
                     ${productsTotal.toFixed(2)}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Gestión Envío</td>
+                  <td></td>
+                  <td className="text-center font-semibold">
+                    ${parseFloat(shippingFee).toFixed(2)}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td></td>
+                  <td className="text-center font-semibold">
+                    ${(productsTotal + parseFloat(shippingFee)).toFixed(2)}
                   </td>
                 </tr>
               </tbody>
