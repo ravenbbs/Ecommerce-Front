@@ -58,7 +58,6 @@ export default function CartPage() {
   function moreOfThisProduct(id) {
     addProduct(id);
   }
- 
 
   function lessOfThisProduct(id) {
     removeProduct(id);
@@ -223,12 +222,25 @@ export default function CartPage() {
               defaultValue={streetAddress}
               onChange={(ev) => setStreetAddress(ev.target.value)}
             />
-            <button
-              onClick={goToPayment}
-              className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center mx-auto "
+            <div className="flex justify-evenly">
+              <button
+              // onClick={goToPayment} //aun no esta funcional la pasarela 
+              href={'/factura'}
+              className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center "
             >
+              <a href={'/factura'}>
               Continuar con el pago
+              </a>
             </button>
+            {/* url tipo boton que redirige hacia la factura en caso de no querer pagar con tarjeta */}
+            {/* <a
+              href={'/factura'}
+              className=" btn-default bg-green-200  font-semibold  text-green-900  flex items-center"
+            >
+              Generar Factura
+            </a> */}
+            </div>
+            
           </div>
         )}
       </section>

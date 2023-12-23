@@ -14,3 +14,14 @@ h1{
 .btn-blue{
   @apply bg-blue-500 text-white
 }
+
+@media print {
+  @page {
+    size: auto; /* Puedes ajustar el tamaño de la página según tus necesidades */
+    margin: 0; /* Elimina los márgenes predeterminados del navegador */
+  }
+  body {
+    margin: 1cm; /* Puedes ajustar el margen del contenido según tus necesidades */
+  }
+
+}
