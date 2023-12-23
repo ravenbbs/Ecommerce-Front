@@ -7,6 +7,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { RevealWrapper } from "next-reveal";
 import { useEffect, useState } from "react";
 import Tabs from "@/components/Tabs";
+import SingleOrder from "@/components/SingleOrder";
 
 export default function AccountPage() {
   const { data: session } = useSession();
@@ -19,7 +20,7 @@ export default function AccountPage() {
   const [wishlistLoaded, setWishlistLoaded] = useState(true);
   const [orderLoaded, setOrderLoaded] = useState(true);
   const [wishedProducts, setWishedProducts] = useState([]);
-  const [activeTab, setActiveTab] = useState("Orders");
+  const [activeTab, setActiveTab] = useState("Lista de deseos");
   const [orders, setOrders] = useState([]);
 
   function logout() {
@@ -54,10 +55,10 @@ export default function AccountPage() {
       setWishedProducts(response.data.map((wp) => wp.product));
       setWishlistLoaded(true);
     });
-    // axios.get("/api/orders").then((response) => {
-    //   setOrders(response.data);
-    //   setOrderLoaded(true);
-    // });
+    axios.get("/api/orders").then((response) => {
+      setOrders(response.data);
+      setOrderLoaded(true);
+    });
   }, [session]);
   function productRemovedFromWishlist(idToRemove) {
     setWishedProducts((products) => {
@@ -70,37 +71,57 @@ export default function AccountPage() {
       <Header hidden={"hidden"} accountHidden={"hidden"} />
       <section className="mb-16 flex pt-12 px-4 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
         <div className=" bg-white shadow rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto p-4 ">
-          <h1 className="mb-6 mx-4">Lista de deseos</h1>
-          <Tabs tabs={["Lista de deseos", "Ordenes"]} />
-          <RevealWrapper>
-            <div className="flex flex-wrap gap-4 max-sm:justify-center p">
-              {!wishlistLoaded && <Spinner fullWidth={true} />}
+          <Tabs
+            editActive={"opacity-50"}
+            tabs={["Lista de deseos", "Ordenes"]}
+            active={activeTab}
+            onChange={setActiveTab}
+          />
 
-              {wishlistLoaded && (
-                <>
-                  {wishedProducts.length > 0 &&
-                    wishedProducts.map((wp) => (
-                      <WishProductBox
-                        key={wp._id}
-                        {...wp}
-                        wished={true}
-                        onRemoveFromWishlist={productRemovedFromWishlist}
-                      />
-                    ))}
-                  {wishedProducts.length === 0 && (
-                    <>
-                      {session && <p>Tu lista esta vacía</p>}
-                      {!session && (
-                        <p className="mb-6">
-                          Inicia sesión para agregar productos a tu lista
-                        </p>
-                      )}
-                    </>
-                  )}
-                </>
+          {activeTab === "Ordenes" && (
+            <>
+              {!orderLoaded && <Spinner fullWidth={true} />}
+              {orderLoaded && (
+                <RevealWrapper>
+                  {orders.length === 0 && <p>Login to see your orders</p>}
+                  {orders.length > 0 &&
+                    orders.map((o) => <SingleOrder {...o} />)}
+                </RevealWrapper>
               )}
-            </div>
-          </RevealWrapper>
+            </>
+          )}
+
+          {activeTab === "Lista de deseos" && (
+            <RevealWrapper>
+              <div className="flex flex-wrap gap-4 max-sm:justify-center p">
+                {!wishlistLoaded && <Spinner fullWidth={true} />}
+
+                {wishlistLoaded && (
+                  <>
+                    {wishedProducts.length > 0 &&
+                      wishedProducts.map((wp) => (
+                        <WishProductBox
+                          key={wp._id}
+                          {...wp}
+                          wished={true}
+                          onRemoveFromWishlist={productRemovedFromWishlist}
+                        />
+                      ))}
+                    {wishedProducts.length === 0 && (
+                      <>
+                        {session && <p>Tu lista esta vacía</p>}
+                        {!session && (
+                          <p className="mb-6">
+                            Inicia sesión para agregar productos a tu lista
+                          </p>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            </RevealWrapper>
+          )}
         </div>
 
         <div className="bg-white shadow rounded-lg h-fit w-full max-w-xl max-md:mx-auto p-4 ">
@@ -147,7 +168,7 @@ export default function AccountPage() {
               <button
                 onClick={saveAddress}
                 type="submit"
-                className=" btn-default btn-blue font-semibold  text-gray-800  flex items-center w-full text-center"
+                className=" block font-bold px-4 py-2  mx-auto rounded-md hover:scale-105 transition-all my-1 shadow-sm bg-blue-200 text-blue-600  w-3/4 text-center  "
               >
                 Guardar
               </button>
@@ -159,7 +180,7 @@ export default function AccountPage() {
             )}
           </RevealWrapper>
 
-          <hr className="border-gray-300 my-4" />
+          <hr className="border-gray-300 my-6" />
           {session && (
             <button
               onClick={logout}

@@ -182,8 +182,12 @@ export default function CartPage() {
             </table>
           )}
         </div>
+                        {/*Aqui va para no poder comprar cuando no se haya inciado sesion  */}
+        <div className="bg-white shadow rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
 
-        {!!cartProducts.length && (
+        </div>
+
+        {!!cartProducts.length && session && (
           <div className="bg-white shadow rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
             <h1 className=" mt-2 mx-4">Información del pedido</h1>
             <hr className="border-gray-300 my-4" />
@@ -231,6 +235,7 @@ export default function CartPage() {
               defaultValue={streetAddress}
               onChange={(ev) => setStreetAddress(ev.target.value)}
             />
+
             <div className="flex justify-evenly">
               <button
               onClick={goToPayment} //aun no esta funcional la pasarela 
