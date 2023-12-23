@@ -6,38 +6,47 @@ import { Product } from "@/models/Product";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { WishedProduct } from "@/models/WishedProduct";
+import { Setting } from "@/models/Setting";
 
-export default function Home({featuredProduct, newProducts, wishedNewProducts}) {
+export default function Home({
+  featuredProduct,
+  newProducts,
+  wishedNewProducts,
+}) {
   return (
     <div>
-    <Header/>
-    <Featured product={featuredProduct}/>
-    <NewProducts products={newProducts} wishedProducts={wishedNewProducts} />
+      <Header />
+      <Featured product={featuredProduct} />
+      <NewProducts products={newProducts} wishedProducts={wishedNewProducts} />
     </div>
-  )
+  );
 }
 
-
-export async function getServerSideProps(ctx){
-
-  const featuredProductId = '6579daddf0f819e6cae583aa'
+export async function getServerSideProps(ctx) {
   await mongooseConnect();
-  const featuredProduct = await Product.findById(featuredProductId)
-  const newProducts = await Product.find({}, null, {sort: {'_id':-1}, limit:8});
+  const featuredProductSetting = await Setting.findOne({
+    name: "featuredProductId",
+  });
+  const featuredProductId = featuredProductSetting.value;
+  const featuredProduct = await Product.findById(featuredProductId);
+  const newProducts = await Product.find({}, null, {
+    sort: { _id: -1 },
+    limit: 8,
+  });
 
   const session = await getServerSession(ctx.req, ctx.res, authOptions);
   const wishedNewProducts = session?.user
     ? await WishedProduct.find({
-        userEmail:session.user.email,
-        product: newProducts.map(p => p._id.toString()),
+        userEmail: session.user.email,
+        product: newProducts.map((p) => p._id.toString()),
       })
     : [];
-    
+
   return {
     props: {
       featuredProduct: JSON.parse(JSON.stringify(featuredProduct)),
       newProducts: JSON.parse(JSON.stringify(newProducts)),
-      wishedNewProducts: wishedNewProducts.map(i => i.product.toString()),
-    }
-  }
+      wishedNewProducts: wishedNewProducts.map((i) => i.product.toString()),
+    },
+  };
 }
