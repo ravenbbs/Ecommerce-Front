@@ -23,20 +23,42 @@ export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("Lista de deseos");
   const [orders, setOrders] = useState([]);
 
-  function logout() {
-    signOut({
-      callbackUrl: process.env.NEXT_PUBLIC_URL,
-    });
+  // async function logout() {
+  //   await signOut({
+  //     callbackUrl: process.env.NEXT_PUBLIC_URL,
+  //   });
+  // }
+
+// Al cerrar sesión
+function logout() {
+  // Revocar el token de Google
+  const accessToken = // obtén el token de acceso del usuario actual
+  revokeGoogleToken(accessToken);
+  // Cerrar sesión
+  signOut({
+    callbackUrl: process.env.NEXT_PUBLIC_URL,
+  });
+}
+
+// Función para revocar el token de Google
+const revokeGoogleToken = async (accessToken) => {
+  try {
+    await axios.get(`https://accounts.google.com/o/oauth2/revoke?token=${accessToken}`);
+  } catch (error) {
+    console.error('Error al revocar el token de Google:', error.response?.data || error.message);
   }
-  function login() {
-    signIn("google");
+};
+
+
+  async function login() {
+    await signIn("google");
   }
 
   function saveAddress() {
     const data = { name, email, city, streetAddress, postalCode };
     axios.put("/api/address", data);
   }
-  console.log(session);
+
   useEffect(() => {
     if (!session) {
       return;
