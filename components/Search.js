@@ -7,7 +7,7 @@ import SearchProductBox from "./SearchProductBox";
 
 export default function SearchComponent({ searchHidden }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [phrase, setPhrase] = useState("");
+  const [phrase, setPhrase] = useState("iphone");
   const [inputPhrase, setInputPhrase] = useState("");
 
   const [products, setProducts] = useState([]);
@@ -24,6 +24,8 @@ export default function SearchComponent({ searchHidden }) {
     }
   }, [phrase]);
 
+let hidden = ''
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (productsRef.current && !productsRef.current.contains(event.target)) {
@@ -36,7 +38,7 @@ export default function SearchComponent({ searchHidden }) {
 
         // Ocultar el div solo si se hace clic fuera del div y debajo del header
         if (isClickBelowHeader) {
-          setPhrase("");
+          setPhrase('')
         }
       }
     };
@@ -48,6 +50,7 @@ export default function SearchComponent({ searchHidden }) {
   }, []);
 
   function searchProducts(phrase) {
+    setInputPhrase(phrase)
     axios
       .get("/api/products?phrase=" + encodeURIComponent(phrase))
       .then((response) => {
@@ -55,7 +58,7 @@ export default function SearchComponent({ searchHidden }) {
         setIsLoading(false);
       });
   }
-
+  
   return (
     <>
       <div
@@ -63,23 +66,20 @@ export default function SearchComponent({ searchHidden }) {
         className={` flex border-blue-600 border-2 rounded-md  w-1/3 font-semibold max-md:hidden  ${searchHidden}`}
       >
         <Input
-          autoFocus
           className="p-2 focus:outline-none w-full  border-r-2 border-blue-600"
           type="text"
           placeholder="Nombre del producto"
           name="name"
-          defaultValue={phrase}
+          value={phrase}
           onChange={(ev) => {
-            setPhrase(ev.target.value), setInputPhrase(phrase);
+            setPhrase(ev.target.value);
           }}
         />
         <button
           className="bg-blue-500 text-white px-6 z-50"
-          defaultValue={phrase}
-          onClick={() => {
-            setPhrase(inputPhrase);
-            debouncedSearch(inputPhrase);
-          }}
+          // onClick={() => 
+          //   setPhrase(inputPhrase)
+          // }
         >
           Buscar
         </button>
@@ -87,7 +87,7 @@ export default function SearchComponent({ searchHidden }) {
 
       <div
         ref={productsRef}
-        className={` overflow-y-auto max-h-screen flex flex-wrap  max-sm:justify-center left-0 right-0 mx-auto text-center bg-blue-100 absolute max-md:hidden transition-all px-4 max-w-4xl w-full  gap-6  rounded-md p-4 top-24 shadow-2xl ${
+        className={` overflow-y-auto max-h-screen flex flex-wrap  max-sm:justify-center left-0 right-0 mx-auto text-center bg-blue-100 absolute max-md:hidden transition-all px-4 max-w-4xl w-full  gap-6  rounded-md p-4 top-24 shadow-2xl ${hidden}  ${
           phrase ? "" : "hidden"
         }`}
       >
