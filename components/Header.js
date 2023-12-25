@@ -1,15 +1,22 @@
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
+import SearchComponent from "./Search";
 
-export default function Header({ hidden, searchHidden, cartHidden, accountHidden }) {
+export default function Header({
+  hidden,
+  searchHidden,
+  cartHidden,
+  accountHidden,
+  onSearch,
+}) {
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const { cartProducts } = useContext(CartContext);
 
   return (
     <header className=" flex flex-col p-2 bg-white relative pt-20">
       {/* sección superior del header*/}
-      <div className="flex justify-between max-lg:px-2 max-md:px-6 px-6 py-4 bg-white  fixed top-0 left-0 z-50 w-full drop-shadow-md rounded-b-md">
+      <div className=" flex justify-between max-lg:px-2 max-md:px-6 px-6 py-4 bg-white  fixed top-0 left-0 z-50 w-full drop-shadow-md rounded-b-md">
         {/* Logo de la tienda*/}
         <Link
           href={"/"}
@@ -56,26 +63,18 @@ export default function Header({ hidden, searchHidden, cartHidden, accountHidden
           Bianvi Store
         </Link>
         {/* Barra de búsqueda*/}
-        <div className="flex border-blue-600 border-2 rounded-md overflow-hidden w-fit font-semibold max-md:hidden">
-          <input
-            className="p-2 focus:outline-none  border-r-2 border-blue-600 max-lg:w-36"
-            type="text"
-          />
-          <select className=" flex items-center outline-none px-4 max-lg:px-2 w-32">
-            <option value={0}>Categorías</option>
-          </select>
-          <button className="bg-blue-500 text-white h-full px-6 block  max-lg:px-3 ">
-            Buscar
-          </button>
-        </div>
+        <SearchComponent searchHidden={searchHidden} onSearch />
+
         {/* Sección ingresar o Perfil*/}
         <div className="flex gap-4">
           {/* Ingresar - registrarse cuando no exista session  cuando si lo de abajo*/}
-          
 
           <Link
             href={"/search"}
-            className={"flex flex-col items-center text-gray-400 font-semibold md:hidden " + searchHidden}
+            className={
+              "flex flex-col items-center text-gray-400 font-semibold md:hidden " +
+              searchHidden
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -95,10 +94,12 @@ export default function Header({ hidden, searchHidden, cartHidden, accountHidden
             Buscar
           </Link>
 
-
           <Link
             href={"/account"}
-            className={"flex flex-col items-center text-gray-400 font-semibold "+ accountHidden }
+            className={
+              "flex flex-col items-center text-gray-400 font-semibold " +
+              accountHidden
+            }
           >
             <svg
               width="21"
@@ -119,7 +120,10 @@ export default function Header({ hidden, searchHidden, cartHidden, accountHidden
 
           <Link
             href={"/cart"}
-            className={"flex flex-col items-center text-gray-400 font-semibold relative " + cartHidden}
+            className={
+              "flex flex-col items-center text-gray-400 font-semibold relative " +
+              cartHidden
+            }
           >
             <svg
               width="21"

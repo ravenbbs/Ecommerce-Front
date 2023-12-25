@@ -7,11 +7,11 @@ import { debounce } from "lodash";
 import Spinner from "@/components/Spinner";
 
 export default function SearchPage() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [phrase, setPhrase] = useState("");
   const [products, setProducts] = useState([]);
   const debouncedSearch = useCallback(debounce(searchProducts, 500), []);
-
+  let onSearch = ''
   useEffect(() => {
     if (phrase.length > 0) {
       setIsLoading(true);
@@ -31,7 +31,7 @@ export default function SearchPage() {
   }
   return (
     <>
-      <Header hidden={"hidden"} searchHidden={" hidden"} />
+      <Header hidden={"hidden"} searchHidden={' hidden'} onSearch={onSearch} />
 
       <div className="   flex justify-center  p-4 ">
         <Input
@@ -40,7 +40,7 @@ export default function SearchPage() {
           type="text"
           placeholder="Buscar"
           name="name"
-          defaultValue={phrase}
+          defaultValue={phrase || onSearch}
           onChange={(ev) => setPhrase(ev.target.value)}
         />
       </div>
