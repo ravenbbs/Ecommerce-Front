@@ -3,10 +3,20 @@ import { CartContext } from "./CartContext";
 import HeartSolidIcon from "./icons/HeartSolidIcon";
 import axios from "axios";
 import { RevealWrapper } from "next-reveal";
+import { useSession } from "next-auth/react";
 
-export default function ProductBox({ _id, title, description, price, images, wished=false, onRemoveFromWishlist=()=>{} }) {
-  const [isWished, setIsWished] = useState(wished)
-  
+export default function ProductBox({
+  _id,
+  title,
+  description,
+  price,
+  images,
+  wished = false,
+  onRemoveFromWishlist = () => {},
+}) {
+  const [isWished, setIsWished] = useState(wished);
+  const { data: session } = useSession();
+
   function addToWishlist(ev) {
     ev.preventDefault();
     ev.stopPropagation();
@@ -14,9 +24,11 @@ export default function ProductBox({ _id, title, description, price, images, wis
     if (nextValue === false && onRemoveFromWishlist) {
       onRemoveFromWishlist(_id);
     }
-    axios.post('/api/wishlist', {
-      product: _id,
-    }).then(() => {});
+    axios
+      .post("/api/wishlist", {
+        product: _id,
+      })
+      .then(() => {});
     setIsWished(nextValue);
   }
 
@@ -34,13 +46,18 @@ export default function ProductBox({ _id, title, description, price, images, wis
             />
           </div>
 
-          <h3 className="text-left px-4 mb-4 text-lg font-bold h-12 ">{title}</h3>
+          <h3 className="text-left px-4 mb-4 text-lg font-bold h-12 ">
+            {title}
+          </h3>
         </a>
-        <button 
-        onClick={addToWishlist}
-        className="absolute top-0 right-0 p-3 rounded-l-none hover:scale-110 transition-all ">
-          <HeartSolidIcon color={isWished? "#ff4f67" : "#aaaaaaa" } />
-        </button>
+        {session && (
+          <button
+            onClick={addToWishlist}
+            className="absolute top-0 right-0 p-3 rounded-l-none hover:scale-110 transition-all "
+          >
+            <HeartSolidIcon color={isWished ? "#ff4f67" : "#aaaaaaa"} />
+          </button>
+        )}
       </div>
 
       <div className="flex">

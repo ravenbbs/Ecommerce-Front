@@ -7,7 +7,8 @@ import { useContext, useEffect, useState } from "react";
 
 export default function CartPage() {
   const { data: session } = useSession();
-  const { cartProducts, addProduct, removeProduct, clearCart } = useContext(CartContext);
+  const { cartProducts, addProduct, removeProduct, clearCart } =
+    useContext(CartContext);
 
   const [products, setProducts] = useState([]);
   const [name, setName] = useState("");
@@ -47,11 +48,13 @@ export default function CartPage() {
       return;
     }
     axios.get("/api/address").then((response) => {
-      setName(response.data.name);
-      setEmail(response.data.email);
-      setCity(response.data.city);
-      setPostalCode(response.data.postalCode);
-      setStreetAddress(response.data.streetAddress);
+      if (response.data) {
+        setName(response.data.name);
+        setEmail(response.data.email);
+        setCity(response.data.city);
+        setPostalCode(response.data.postalCode);
+        setStreetAddress(response.data.streetAddress);
+      }
     });
   }, [session]);
 
@@ -196,18 +199,23 @@ export default function CartPage() {
             </table>
           )}
         </div>
-                        {/*Aqui va para no poder comprar cuando no se haya inciado sesion  */}
-        <div className="bg-white shadow rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
-
-        </div>
+        {/*Aqui va para no poder comprar cuando no se haya inciado sesion  */}
+        {!session && (
+          <div className="bg-white shadow rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
+            <h1 className=" mt-2 mx-4">Información del Cliente</h1>
+            <hr className="border-gray-300 my-4" />
+            <p className="text-center my-12 font-semibold">
+              Para poder Comprar debes iniciar sesión{" "}
+            </p>
+          </div>
+        )}
 
         {!!cartProducts.length && session && (
           <div className="bg-white shadow rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
-            <h1 className=" mt-2 mx-4">Información del pedido</h1>
+            <h1 className=" mt-2 mx-4">Información del Cliente</h1>
             <hr className="border-gray-300 my-4" />
             <Input
-                          disabled="true"
-
+              disabled="true"
               type="text"
               placeholder="Nombres"
               name="name"
@@ -215,8 +223,7 @@ export default function CartPage() {
               onChange={(ev) => setName(ev.target.value)}
             />
             <Input
-                          disabled="true"
-
+              disabled="true"
               type="text"
               placeholder="Correo"
               name="email"
@@ -224,8 +231,7 @@ export default function CartPage() {
               onChange={(ev) => setEmail(ev.target.value)}
             />
             <Input
-                          disabled="true"
-
+              disabled="true"
               type="text"
               placeholder="Ciudad"
               name="city"
@@ -233,8 +239,7 @@ export default function CartPage() {
               onChange={(ev) => setCity(ev.target.value)}
             />
             <Input
-                          disabled="true"
-
+              disabled="true"
               type="text"
               placeholder="Código Postal"
               name="postalCode"
@@ -252,29 +257,26 @@ export default function CartPage() {
 
             <div className="flex justify-evenly">
               <button
-              onClick={goToPayment} //aun no esta funcional la pasarela 
-              href={'/factura'}
-              className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center "
-            >
-              <a href={'/factura'}>
-              Continuar con el pago
-              </a>
-            </button>
-            {/* url tipo boton que redirige hacia la factura en caso de no querer pagar con tarjeta */}
-            {/* <a
+                onClick={goToPayment} //aun no esta funcional la pasarela
+                href={"/factura"}
+                className=" btn-default btn-blue  font-semibold  text-gray-800  flex items-center "
+              >
+                <a href={"/factura"}>Continuar con el pago</a>
+              </button>
+              {/* url tipo boton que redirige hacia la factura en caso de no querer pagar con tarjeta */}
+              {/* <a
               href={'/factura'}
               className=" btn-default bg-green-200  font-semibold  text-green-900  flex items-center"
             >
               Generar Factura
             </a> */}
-            <a
-              href={'/account'}
-              className=" btn-default bg-green-200  font-semibold  text-green-900  flex items-center"
-            >
-              Editar Información
-            </a>
+              <a
+                href={"/account"}
+                className=" btn-default bg-green-200  font-semibold  text-green-900  flex items-center"
+              >
+                Editar Información
+              </a>
             </div>
-            
           </div>
         )}
       </section>

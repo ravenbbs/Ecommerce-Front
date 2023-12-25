@@ -8,8 +8,8 @@ import SearchProductBox from "./SearchProductBox";
 export default function SearchComponent({ searchHidden }) {
   const [isLoading, setIsLoading] = useState(true);
   const [phrase, setPhrase] = useState("iphone");
-  const [inputPhrase, setInputPhrase] = useState("");
-
+  //const [inputPhrase, setInputPhrase] = useState("");
+ 
   const [products, setProducts] = useState([]);
   const debouncedSearch = useCallback(debounce(searchProducts, 500), []);
   const productsRef = useRef(null);
@@ -42,15 +42,19 @@ let hidden = ''
         }
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
+  useEffect(() => {
+      // Restablecer el estado del phrase al montar el componente o al dar clik en un producto buscado, reinicia la varialble 
+      setPhrase('');
+    }, []);
+
   function searchProducts(phrase) {
-    setInputPhrase(phrase)
+    
     axios
       .get("/api/products?phrase=" + encodeURIComponent(phrase))
       .then((response) => {
@@ -87,7 +91,7 @@ let hidden = ''
 
       <div
         ref={productsRef}
-        className={` overflow-y-auto max-h-screen flex flex-wrap  max-sm:justify-center left-0 right-0 mx-auto text-center bg-blue-100 absolute max-md:hidden transition-all px-4 max-w-4xl w-full  gap-6  rounded-md p-4 top-24 shadow-2xl ${hidden}  ${
+        className={` overflow-y-auto max-h-screen flex flex-wrap  max-sm:justify-center left-0 right-0 mx-auto text-center bg-blue-100 absolute max-md:hidden transition-all px-4 max-w-4xl w-full  gap-4  rounded-md p-4 top-24 shadow-2xl ${hidden}  ${
           phrase ? "" : "hidden"
         }`}
       >

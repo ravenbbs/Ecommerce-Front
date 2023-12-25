@@ -2,8 +2,8 @@
 export default function SingleOrder({line_items,createdAt,...rest}) {
   return (
     <div 
-    className="my-2 py-3 border-b-2 flex justify-evenly gap-4 border-slate-300">
-      <div>
+    className="my-2 py-3 border-b-2 flex  gap-8 border-slate-300">
+      <div className="border-r-2 pr-4 ">
         <time>{(new Date(createdAt)).toLocaleString('sv-SE')}</time>
         <div 
         className="mt-2 text-sm font-semibold ">

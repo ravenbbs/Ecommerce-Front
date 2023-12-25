@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
 import SearchComponent from "./Search";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Header({
   hidden,
@@ -12,7 +13,10 @@ export default function Header({
 }) {
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const { cartProducts } = useContext(CartContext);
-
+  const { data: session } = useSession();
+  function login() {
+    signIn("google");
+  }
   return (
     <header className=" flex flex-col p-2 bg-white relative pt-20">
       {/* sección superior del header*/}
@@ -93,8 +97,16 @@ export default function Header({
             </svg>
             Buscar
           </Link>
-
-          <Link
+          {!session && (
+            <button
+              onClick={login}
+              className="block font-bold px-4 py-2  mx-auto rounded-md hover:scale-105 transition-all my-1 shadow-sm bg-blue-200 text-blue-600 "
+            >
+              Iniciar Sesión
+            </button>
+          )}
+          {session&& (
+            <Link
             href={"/account"}
             className={
               "flex flex-col items-center text-gray-400 font-semibold " +
@@ -117,6 +129,8 @@ export default function Header({
             </svg>
             Cuenta
           </Link>
+          )}
+          
 
           <Link
             href={"/cart"}
