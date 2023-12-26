@@ -28,18 +28,13 @@ export default function AccountPage() {
       callbackUrl: process.env.NEXT_PUBLIC_URL,
     });
   }
-
-
-
   async function login() {
     await signIn("google");
   }
-
   function saveAddress() {
     const data = { name, email, city, streetAddress, postalCode };
     axios.put("/api/address", data);
   }
-
   useEffect(() => {
     if (!session) {
       return;
@@ -73,7 +68,6 @@ export default function AccountPage() {
       return [...products.filter((p) => p._id.toString() !== idToRemove)];
     });
   }
-
   return (
     <>
       <Header hidden={"hidden"} accountHidden={"hidden"} />
@@ -82,10 +76,9 @@ export default function AccountPage() {
           <Tabs
             editActive={"opacity-50"}
             tabs={["Lista de deseos", "Ordenes"]}
-            active={activeTab}
+            active={activeTab.toString()}
             onChange={setActiveTab}
           />
-
           {activeTab === "Ordenes" && (
             <>
               {!orderLoaded && <Spinner fullWidth={true} />}
