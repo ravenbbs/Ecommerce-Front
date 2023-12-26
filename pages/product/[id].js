@@ -1,5 +1,6 @@
 import { CartContext } from "@/components/CartContext";
 import Header from "@/components/Header";
+import ProductReviews from "@/components/ProductReviews";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
 import { useContext, useState } from "react";
@@ -94,29 +95,8 @@ export default function ProductPage({ product }) {
           </div>
         </div>
       </section>
-      {/* solo si inicio sesión debe salir, para agregar review */}
-      <section className="mb-16 flex pt-4 px-2 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
-        {/* Para agregar review */}
-        <div className=" bg-white shadow-lg rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto  ">
-          <h1 className="mb-6 mx-4">Agregar una review</h1>
-
-          <div className="w-full h-20 text-center py-6 font-semibold text-xl">
-            El carrito esta vació
-          </div>
-        </div>
-
-
-        {/* Ver las reviews */}
-        <div className="bg-white shadow-lg rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
-          <h1 className=" mt-2 mx-4">Reviews</h1>
-          <hr className="border-gray-300 my-4" />
-
-          <div className="flex justify-evenly">
-
-          </div>
-        </div>
-
-      </section>
+      
+      <ProductReviews />
     </>
   );
 }
