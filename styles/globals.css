@@ -25,3 +25,13 @@ h1{
   }
 
 }
+
+
+.animate-star {
+  transition: transform 0.6s ease-in-out; /* Smooth transformation */
+}
+
+.animate-star:hover,
+.animate-star:focus {
+  transform: scale(1.1); /* Scale up on hover/focus */
+}

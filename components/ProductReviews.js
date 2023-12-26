@@ -1,10 +1,10 @@
 import Input from "@/components/Input";
-
 import StarsRating from "@/components/StarsRating";
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "@/components/Spinner";
+import { useSession } from "next-auth/react";
+import Textarea from "./Textarea";
 
 // const Title = styled.h2`
 //   font-size:1.2rem;
@@ -51,6 +51,8 @@ import Spinner from "@/components/Spinner";
 // `;
 
 export default function ProductReviews({ product }) {
+  const { data: session } = useSession();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [stars, setStars] = useState(0);
@@ -83,16 +85,35 @@ export default function ProductReviews({ product }) {
       {/* solo si inicio sesión debe salir, para agregar review */}
       {/* Para agregar review */}
       <div className=" bg-white shadow-lg rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto  ">
-        <h1 className="mb-6 mx-4">Agregar una review</h1>
-
-        <div className="w-full h-20 text-center p-6 font-semibold text-xl">
-          <Input
-            type="text"
-            value={title}
-            onChange={(ev) => setTitle(ev.target.value)}
-            placeholder="Titulo"
-          />
-        </div>
+        <h1 className="mb-6 mx-4">Agrega un review</h1>
+        {session && (
+          <>
+            <StarsRating onChange={setStars} />
+            <div className="w-full h-20 text-center px-6 py-2 font-semibold text-xl">
+              <Input
+                type="text"
+                value={title}
+                onChange={(ev) => setTitle(ev.target.value)}
+                placeholder="Titulo"
+              />
+              <Textarea
+                type="textarea"
+                value={description}
+                onChange={(ev) => setDescription(ev.target.value)}
+                placeholder="Was it good? Pros? Cons?"
+              />
+              <input type="text"></input>
+              <textarea></textarea>
+            </div>
+          </>
+        )}
+        {!session && (
+          <div className="w-full h-20 text-center px-6 py-2 font-semibold text-xl ">
+            <p className="text-center ">
+              Debes iniciar sesión para agregar una review
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Ver las reviews */}
@@ -105,14 +126,10 @@ export default function ProductReviews({ product }) {
     </section>
 
     // <div>
-    //   <Title>Reviews</Title>
     //   <ColsWrapper>
     //     <div>
     //       <WhiteBox>
-    //         <Subtitle>Add a review</Subtitle>
-    //         <div>
-    //           <StarsRating onChange={setStars} />
-    //         </div>
+    //
     //         <Input
     //           value={title}
     //           onChange={ev => setTitle(ev.target.value)}
