@@ -100,7 +100,7 @@ export default function Header({
           {!session && (
             <button
               onClick={login}
-              className="block font-bold px-4 py-2  mx-auto rounded-md hover:scale-105 transition-all my-1 shadow-sm bg-blue-200 text-blue-600 "
+              className="block font-bold px-2 py-2  mx-auto rounded-md hover:scale-105 transition-all my-1 shadow-sm bg-blue-200 text-blue-600 "
             >
               Iniciar Sesión
             </button>
@@ -135,7 +135,7 @@ export default function Header({
           <Link
             href={"/cart"}
             className={
-              "flex flex-col items-center text-gray-400 font-semibold relative " +
+              "flex flex-col items-center text-gray-400 font-semibold relative max-sm:hidden " +
               cartHidden
             }
           >
