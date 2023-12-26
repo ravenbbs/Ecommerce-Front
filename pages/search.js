@@ -46,7 +46,7 @@ export default function SearchPage() {
       </div>
       {!isLoading && phrase !== "" && products.length === 0 && (
         <h1 className="block text-center mx-auto my-12 ">
-          No se encontraron productos: "{phrase}"
+          No se encontraron productos:  &quot;{phrase}&quot;
         </h1>
       )}
       {isLoading && <Spinner fullWidth={true} />}

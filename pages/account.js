@@ -90,7 +90,7 @@ export default function AccountPage() {
                     </p>
                   )}
                   {orders.length > 0 &&
-                    orders.map((o) => <SingleOrder {...o} />)}
+                    orders.map((o, index) => <SingleOrder {...o} key={index} />)}
                 </RevealWrapper>
               )}
             </>

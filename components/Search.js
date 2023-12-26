@@ -97,7 +97,7 @@ let hidden = ''
 
         {!isLoading && phrase !== "" && products.length === 0 && (
           <h1 className="col-span-full block text-center max-w-4xl mx-auto my-12 max-md:hidden">
-            No se encontraron productos: "{phrase}"
+            No se encontraron productos:  &quot;{phrase}&quot;
           </h1>
         )}
         {!isLoading &&

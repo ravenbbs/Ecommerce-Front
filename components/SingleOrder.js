@@ -14,8 +14,8 @@ export default function SingleOrder({line_items,createdAt,...rest}) {
         </div>
       </div>
       <div>
-        {line_items.map(item => (
-          <span className="block text-gray-700 font-semibold ">
+        {line_items.map((item, index) => (
+          <span key={index} className="block text-gray-700 font-semibold ">
             <span>{item.quantity} x </span>
             {item.price_data.product_data.name}
           </span>
