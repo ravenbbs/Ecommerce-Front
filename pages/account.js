@@ -23,31 +23,12 @@ export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("Lista de deseos");
   const [orders, setOrders] = useState([]);
 
-  // async function logout() {
-  //   await signOut({
-  //     callbackUrl: process.env.NEXT_PUBLIC_URL,
-  //   });
-  // }
-
-// Al cerrar sesión
-function logout() {
-  // Revocar el token de Google
-  const accessToken = // obtén el token de acceso del usuario actual
-  revokeGoogleToken(accessToken);
-  // Cerrar sesión
-  signOut({
-    callbackUrl: process.env.NEXT_PUBLIC_URL,
-  });
-}
-
-// Función para revocar el token de Google
-const revokeGoogleToken = async (accessToken) => {
-  try {
-    await axios.get(`https://accounts.google.com/o/oauth2/revoke?token=${accessToken}`);
-  } catch (error) {
-    console.error('Error al revocar el token de Google:', error.response?.data || error.message);
+  async function logout() {
+    await signOut({
+      callbackUrl: process.env.NEXT_PUBLIC_URL,
+    });
   }
-};
+
 
 
   async function login() {
