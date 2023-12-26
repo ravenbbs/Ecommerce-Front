@@ -6,65 +6,24 @@ import Spinner from "@/components/Spinner";
 import { useSession } from "next-auth/react";
 import Textarea from "./Textarea";
 
-// const Title = styled.h2`
-//   font-size:1.2rem;
-//   margin-bottom:5px;
-// `;
-// const Subtitle = styled.h3`
-//   font-size: 1rem;
-//   margin-top: 5px;
-// `;
-// const ColsWrapper = styled.div`
-//   display: grid;
-//   grid-template-columns: 1fr;
-//   gap: 20px;
-//   margin-bottom: 40px;
-//   @media screen and (min-width: 768px) {
-//     grid-template-columns: 1fr 1fr;
-//     gap: 40px;
-//   }
-// `;
-// const ReviewWrapper = styled.div`
-//   margin-bottom: 10px;
-//   border-top: 1px solid #eee;
-//   padding: 10px 0;
-//   h3{
-//     margin:3px 0;
-//     font-size:1rem;
-//     color:#333;
-//     font-weight: normal;
-//   }
-//   p{
-//     margin:0;
-//     font-size: .7rem;
-//     line-height: 1rem;
-//     color:#555;
-//   }
-// `;
-// const ReviewHeader = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   time{
-//     font-size: 12px;
-//     color: #aaa;
-//   }
-// `;
-
 export default function ProductReviews({ product }) {
   const { data: session } = useSession();
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [stars, setStars] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [reviewsLoading, setReviewsLoading] = useState(false);
 
+  const email = session?.user?.email;
   function submitReview() {
-    const data = { title, description, stars, product: product._id };
+    const data = {
+      autor: email,
+      title,
+      description,
+      stars,
+      product: product._id,
+    };
     axios.post("/api/reviews", data).then((res) => {
-      setTitle("");
-      setDescription("");
-      setStars(0);
       loadReviews();
     });
   }
@@ -74,22 +33,25 @@ export default function ProductReviews({ product }) {
 
   function loadReviews() {
     setReviewsLoading(true);
-    // axios.get('/api/reviews?product='+product._id).then(res => {
-    //   setReviews(res.data);
-    //   setReviewsLoading(false);
-    // });
+    axios.get("/api/reviews?product=" + product._id).then((res) => {
+      setReviews(res.data);
+      setReviewsLoading(false);
+    });
   }
 
   return (
-    <section className="mb-16 flex pt-4 px-2 gap-5 max-md:grid-cols-1 max-md:grid justify-center ">
+    <section className="mb-16 flex pt-4 px-2 gap-5 max-md:grid-cols-1 max-md:grid justify-center xl:mx-12">
       {/* solo si inicio sesión debe salir, para agregar review */}
       {/* Para agregar review */}
-      <div className=" bg-white shadow-lg rounded-lg  w-full max-w-2xl pt-6 max-md:mx-auto  ">
-        <h1 className="mb-6 mx-4">Agrega un review</h1>
+      <div className=" bg-white shadow-lg rounded-lg w-full max-w-2xl py-6 max-md:mx-auto ">
+        <h1 className="mb-4 mx-4 text-blue-600">Agrega un review</h1>
+        <hr className="border-blue-300 border my-2 mx-4" />
+
         {session && (
           <>
-            <StarsRating onChange={setStars} />
-            <div className="w-full h-20 text-center px-6 py-2 font-semibold text-xl">
+            <div className="w-full px-6 py-2 font-semibold text-xl">
+              <StarsRating onChange={setStars} />
+              <div className="h-2"></div>
               <Input
                 type="text"
                 value={title}
@@ -100,13 +62,18 @@ export default function ProductReviews({ product }) {
                 type="textarea"
                 value={description}
                 onChange={(ev) => setDescription(ev.target.value)}
-                placeholder="Was it good? Pros? Cons?"
+                placeholder="Agrega un comentario..."
               />
-              <input type="text"></input>
-              <textarea></textarea>
+              <button
+                onClick={submitReview}
+                className="text-base block font-bold px-4 py-2 rounded-md hover:scale-105 transition-all my-1 shadow-sm bg-blue-200 text-blue-600 "
+              >
+                Enviar
+              </button>
             </div>
           </>
         )}
+
         {!session && (
           <div className="w-full h-20 text-center px-6 py-2 font-semibold text-xl ">
             <p className="text-center ">
@@ -118,53 +85,41 @@ export default function ProductReviews({ product }) {
 
       {/* Ver las reviews */}
       <div className="bg-white shadow-lg rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
-        <h1 className=" mt-2 mx-4">Reviews</h1>
-        <hr className="border-gray-300 my-4" />
-
-        <div className="flex justify-evenly"></div>
+        <h1 className=" mt-2 mx-4 text-blue-600">Reviews</h1>
+        <hr className="border-blue-300 border my-4" />
+        {reviewsLoading && <Spinner fullWidth={true} />}
+        {reviews.length === 0 && (
+          <div className="w-full h-20 text-center px-6 py-2 font-semibold text-xl ">
+            <p className="text-center ">
+              Aun no existen reviews sobre este producto
+            </p>
+          </div>
+        )}
+        {reviews.length > 0 &&
+          reviews.map((review) => (
+            <div
+              className="w-full  flex flex-col px-6 text-sm text-gray-500"
+              key={review._id}
+            >
+              <div className="flex justify-between items-center font-semibold">
+                <StarsRating
+                  size={"sm"}
+                  disabled={true}
+                  defaultHowMany={review.stars}
+                />
+                <time>
+                  {new Date(review.createdAt).toLocaleString("sv-SE")}
+                </time>
+              </div>
+              <h3 className="font-semibold text-gray-600 mt-2">
+                {review.title}
+              </h3>
+              <p className="text-gray-600 ">{review.description}</p>
+              <p className="text-right mt-2">{review.autor}</p>
+              <hr className="border my-2" />
+            </div>
+          ))}
       </div>
     </section>
-
-    // <div>
-    //   <ColsWrapper>
-    //     <div>
-    //       <WhiteBox>
-    //
-    //         <Input
-    //           value={title}
-    //           onChange={ev => setTitle(ev.target.value)}
-    //           placeholder="Title" />
-    //         <Textarea
-    //           value={description}
-    //           onChange={ev => setDescription(ev.target.value)}
-    //           placeholder="Was it good? Pros? Cons?" />
-    //         <div>
-    //           <Button primary onClick={submitReview}>Submit your review</Button>
-    //         </div>
-    //       </WhiteBox>
-    //     </div>
-    //     <div>
-    //       <WhiteBox>
-    //         <Subtitle>All reviews</Subtitle>
-    //         {reviewsLoading && (
-    //           <Spinner fullWidth={true} />
-    //         )}
-    //         {reviews.length === 0 && (
-    //           <p>No reviews :(</p>
-    //         )}
-    //         {reviews.length > 0 && reviews.map(review => (
-    //           <ReviewWrapper>
-    //             <ReviewHeader>
-    //               <StarsRating size={'sm'} disabled={true} defaultHowMany={review.stars} />
-    //               <time>{(new Date(review.createdAt)).toLocaleString('sv-SE')}</time>
-    //             </ReviewHeader>
-    //             <h3>{review.title}</h3>
-    //             <p>{review.description}</p>
-    //           </ReviewWrapper>
-    //         ))}
-    //       </WhiteBox>
-    //     </div>
-    //   </ColsWrapper>
-    // </div>
   );
 }

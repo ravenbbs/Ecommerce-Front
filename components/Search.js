@@ -8,8 +8,6 @@ import SearchProductBox from "./SearchProductBox";
 export default function SearchComponent({ searchHidden }) {
   const [isLoading, setIsLoading] = useState(true);
   const [phrase, setPhrase] = useState("iphone");
-  //const [inputPhrase, setInputPhrase] = useState("");
- 
   const [products, setProducts] = useState([]);
   const debouncedSearch = useCallback(debounce(searchProducts, 500), []);
   const productsRef = useRef(null);
@@ -70,8 +68,7 @@ let hidden = ''
         className={` flex border-blue-600 border-2 rounded-md  w-1/3 font-semibold max-md:hidden  ${searchHidden}`}
       >
         <Input
-          className="p-2 focus:outline-none w-full  border-r-2 border-blue-600"
-          type="text"
+          className="p-2 focus:border-none w-full focus:outline-0  border-none rounded-l-md border-blue-600 "
           placeholder="Nombre del producto"
           name="name"
           value={phrase}
@@ -81,9 +78,6 @@ let hidden = ''
         />
         <button
           className="bg-blue-500 text-white px-6 z-50"
-          // onClick={() => 
-          //   setPhrase(inputPhrase)
-          // }
         >
           Buscar
         </button>

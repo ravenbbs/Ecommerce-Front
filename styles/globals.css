@@ -23,14 +23,11 @@ h1{
   body {
     margin: 1cm; /* Puedes ajustar el margen del contenido según tus necesidades */
   }
-
 }
-
 
 .animate-star {
   transition: transform 0.6s ease-in-out; /* Smooth transformation */
 }
-
 .animate-star:hover,
 .animate-star:focus {
   transform: scale(1.1); /* Scale up on hover/focus */
