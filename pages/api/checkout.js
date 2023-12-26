@@ -13,7 +13,6 @@ export default async function handler(req, res) {
   const { name, email, city, postalCode, streetAddress, cartProducts } = req.body;
   await mongooseConnect()
 
-
   const productsIds = cartProducts
   const uniqueIds = [...new Set(productsIds)]
   const productsInfos = await Product.find({_id:uniqueIds})
@@ -33,15 +32,12 @@ export default async function handler(req, res) {
       });
     }
   }
-
   const session = await getServerSession(req,res,authOptions);
-
   const orderDoc = await Order.create({
     line_items,name,email,city,postalCode,
     streetAddress,paid:false,
     userEmail: session?.user?.email,
   });
-  console.log(orderDoc)
 res.json(orderDoc)
 }
 

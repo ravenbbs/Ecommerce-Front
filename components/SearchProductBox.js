@@ -34,7 +34,7 @@ export default function WishProductBox({
 
   return (
     <div className="pb-2 w-full  overflow-hidden bg-white shadow-md rounded-xl border pr-4">
-      <div className="relative flex  items-center justify-between">
+      <div className="relative flex  items-end justify-between">
         <a className="flex items-center " href={"/product/" + _id}>
           <div className=" h-20 w-24 ">
             <img
