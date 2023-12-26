@@ -43,7 +43,7 @@ export default function ProductReviews({ product }) {
     <section className="mb-16 flex pt-4 px-2 gap-5 max-md:grid-cols-1 max-md:grid justify-center xl:mx-12">
       {/* solo si inicio sesión debe salir, para agregar review */}
       {/* Para agregar review */}
-      <div className=" bg-white shadow-lg rounded-lg w-full max-w-2xl py-6 max-md:mx-auto ">
+      <div className=" bg-white shadow-xl rounded-lg w-full max-w-2xl py-6 max-md:mx-auto h-fit ">
         <h1 className="mb-4 mx-4 text-blue-600">Agrega un review</h1>
         <hr className="border-blue-300 border my-2 mx-4" />
 
@@ -84,7 +84,7 @@ export default function ProductReviews({ product }) {
       </div>
 
       {/* Ver las reviews */}
-      <div className="bg-white shadow-lg rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
+      <div className="bg-white shadow-xl rounded-lg h-fit w-full max-w-2xl max-md:mx-auto p-4 ">
         <h1 className=" mt-2 mx-4 text-blue-600">Reviews</h1>
         <hr className="border-blue-300 border my-4" />
         {reviewsLoading && <Spinner fullWidth={true} />}
@@ -111,10 +111,10 @@ export default function ProductReviews({ product }) {
                   {new Date(review.createdAt).toLocaleString("sv-SE")}
                 </time>
               </div>
-              <h3 className="font-semibold text-gray-600 mt-2">
+              <h3 className="text-lg font-semibold text-gray-600 mt-2">
                 {review.title}
               </h3>
-              <p className="text-gray-600 ">{review.description}</p>
+              <p className="text-gray-600 text-md ">{review.description}</p>
               <p className="text-right mt-2">{review.autor}</p>
               <hr className="border my-2" />
             </div>

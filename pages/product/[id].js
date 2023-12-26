@@ -12,7 +12,7 @@ export default function ProductPage({ product }) {
   return (
     <>
       <Header hidden={"hidden"} />
-      <section className="relative overflow-hidden bg-white py-11 shadow-lg m-2 rounded-md xl:mx-12">
+      <section className="relative overflow-hidden bg-white py-11 shadow-lg m-2 mb-6 rounded-md xl:mx-12">
         <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6 ">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full mb-8 md:w-1/2 md:mb-0">
