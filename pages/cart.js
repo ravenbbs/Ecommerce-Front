@@ -114,7 +114,7 @@ export default function CartPage() {
               key={cartProducts.length}
               className="w-full h-20 text-center py-6 font-semibold text-xl"
             >
-              El carrito esta vació
+              El carrito esta vacío 
             </div>
           )}
 
